@@ -68,7 +68,7 @@ h2 {
 }
 
 a {
-    background: linear-gradient(to bottom right, #e09448, #614165); /* Gradient for the links */
+    background: linear-gradient(to bottom right, #edb174, #561121); /* Gradient for the links */
     -webkit-background-clip: text; /* Chrome/Safari */
     background-clip: text; /* Standard syntax for other browsers */
     -webkit-text-fill-color: transparent;
