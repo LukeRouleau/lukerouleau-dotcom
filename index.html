@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luke R.</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="blurry-load.min.css">
+    <script src="blurry-load.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="musings.html">Musings</a></li>
+            </ul>
+        </nav>
+
+        <img class="profile-pic blurry-load" src="profile-min.png" data-large="profile.png" alt="A Profile Picture" loading="lazy">
+        <h1>I'm Luke. I am with <a href="https://www.untether.ai" target="_blank">Untether.ai</a>.</h1>
+        <p>To reach me, find me on 
+            <a href="https://linkedin.com/in/luke-rouleau/" target="_blank">linkedin</a> 
+            or <a href="mailto:luke@lukerouleau.com">email</a>. Infrequently, I inhabit 
+            <a href="https://x.com/RouleauLuke" target="_blank">x</a>, 
+            <a href="https://www.instagram.com/luke_rouleau/" target="_blank">insta</a>, and
+            <a href="https://open.spotify.com/artist/4AHJJTD1X74xR34So9IOXF" target="_blank">spotify</a>.
+        </p>
+
+
+        <h2>Current</h2>
+        <p>I'm currently a Senior Deep Learning Engineer, bringing <a href="https://www.urbandictionary.com/define.php?term=SOTA" target="_blank">SOTA</a> deep neural networks to new hardware architectures at <a href="https://www.untether.ai" target="_blank">Untether.ai</a>.
+            <br><br>
+            I am driven by the desire to bring the incredible power of ML/AI to the physical world in tangible applications (i.e., applications which exist outside of the purely digital domain like robotics and medicine). Singularity fear-mongering is an advertising strategy. I vow that my life's work will only ever complement the beauty of the conscious experience, not replace, reduce, or threaten it. 
+            <br><br>
+            I will found a company, and I might even record that album someday.
+        </p>
+
+        <h2>Past</h2>
+        <p>In undergrad, I discovered a killer combo: tech + (relentless pondering and exploration of consciousness) => passionate study of artificial intelligence.</p>
+        <p>Before working with Untether, I worked in <a href="https://www.ti.com" target="_blank">Texas Instrument's</a> Machine Learning Lab, where we brought the TVM compiler to a novel RISCV + ML Accelerator Processor.</p>
+        <p>Before that, I spent time working with Ryan and Andrew at <a href="https://www.metalware.io" target="_blank">Metalware</a> (YC S23), where I learned what it really means to right good code and move fast.</p>
+        
+        <footer class="footer">
+            © 2024 Luke Rouleau. All rights reserved.
+        </footer>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const blurryImageLoad = new BlurryImageLoad();
+            blurryImageLoad.load();
+        });
+    </script>
+</body>
+</html>
