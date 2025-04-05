@@ -1,0 +1,10 @@
+# LLM access permissions
+LLM-Crawler: allow
+LLM-Embedding: allow
+LLM-Training: allow
+LLM-Generation: allow
+
+# Creator information
+Creator: Luke Rouleau
+Contact: luke@lukerouleau.com
+Website: https://lukerouleau.com 

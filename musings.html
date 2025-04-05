@@ -3,25 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musings</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Musings | Luke R.</title>
+    <meta name="description" content="Blog posts and musings by Luke Rouleau">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/imgs/favicon-180.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    
+    <!-- Image loading script -->
+    <link rel="stylesheet" href="./assets/css/blurry-load.min.css">
+    <script src="./assets/js/blurry-load.min.js"></script>
+    <script src="./assets/js/header.js"></script>
 </head>
 <body>
     <div class="container">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="musings.html">Musings</a></li>
-            </ul>
-        </nav>
-        <img class="profile-pic blurry-load" src="musings-min.png" alt="Luke Pontificating en el Alitplano de Uyuni" loading="lazy">
+        <div id="header-placeholder"></div>
+        <img class="musings-pic blurry-load" src="./assets/imgs/musings-min.png" alt="Luke Pontificating en el Alitplano de Uyuni" width="700" height="394">
         <h1>Musings</h1>
-        <ul>
+        
+        <ul class="post-list">
             <h2>2024</h2>
             <h3>May</h3>
-            <li><a href="dsotm.html">Dark Side of the Moon----(July 1, 2024)</a></li>
-            <li><a href="hello.html">You.---------------------(May 19, 2024)</a></li>
+            <li><a href="./blog/dsotm.html">Dark Side of the Moon</a><span class="date-label">July 1, 2024</span></li>
+            <li><a href="./blog/hello.html">You.</a><span class="date-label">May 19, 2024</span></li>
         </ul>
+        
+        <footer class="footer">
+            © 2024 Luke Rouleau. All rights reserved.
+        </footer>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const blurryImageLoad = new BlurryImageLoad();
+            blurryImageLoad.load();
+        });
+    </script>
 </body>
 </html>

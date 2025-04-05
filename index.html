@@ -4,23 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luke R.</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="description" content="Personal website and blog of Luke Rouleau">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/imgs/favicon-180.png">
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="blurry-load.min.css">
-    <script src="blurry-load.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    
+    <!-- Image loading script -->
+    <link rel="stylesheet" href="./assets/css/blurry-load.min.css">
+    <script src="./assets/js/blurry-load.min.js"></script>
+    <script src="./assets/js/header.js"></script>
 </head>
 <body>
     <div class="container">
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="musings.html">Musings</a></li>
-            </ul>
-        </nav>
+        <div id="header-placeholder"></div>
 
-        <img class="profile-pic blurry-load" src="profile-min.png" data-large="profile.png" alt="A Profile Picture" loading="lazy">
+        <img class="profile-pic blurry-load" 
+             src="./assets/imgs/profile-min.png" 
+             data-large="./assets/imgs/profile.png" 
+             alt="A Profile Picture" 
+             width="700" 
+             height="394">
         <h1>I'm Luke, nice to meet you.</h1>
         <p>I enjoy traveling, deep conversation about big problems, beautiful code, and day-dreaming about the future with people who want to build it.</p>
         <p>To reach me, find me on 
@@ -31,7 +43,7 @@
             <a href="https://open.spotify.com/artist/4AHJJTD1X74xR34So9IOXF" target="_blank">spotify</a>, too.
         </p>
 
-        <h2>Current</h2>
+        <h2>Present</h2>
         <p>I am building <a href="https://www.recodemedical.com" target="_blank">ReCODE Medical</a> with the Segar Brothers.</p>
         <p>I am a Senior Deep Learning Engineer bringing neural nets to new architectures at <a href="https://www.untether.ai" target="_blank">Untether.ai</a>.</p>
 

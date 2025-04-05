@@ -1,0 +1,1 @@
+.blurry-load{-webkit-filter:blur(20px);filter:blur(20px);opacity:0;transition:all .2s ease-in-out}.blurry-load.loaded{-webkit-filter:blur(0);filter:blur(0);opacity:1}.blurry-load-container{background-color:#f6f6f6;overflow:hidden;position:relative}.blurry-load-container img{position:absolute;top:0;left:0;width:100%;height:100%;display:block;object-fit:cover} 
