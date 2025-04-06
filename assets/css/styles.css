@@ -605,10 +605,61 @@ article a:hover {
 }
 
 .inline-logo {
-    height: 2.2rem;
+    height: 1.2rem;
     width: auto;
     margin-right: -8px;
     margin-left: -12px;
     vertical-align: middle;
     padding-bottom: 4px;
+}
+
+/* Social Links Styling */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: rgba(45, 93, 123, 0.1);
+}
+
+.social-links a::after {
+    display: none;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px);
+    background-color: rgba(209, 130, 55, 0.1);
+}
+
+.social-links svg {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 480px) {
+    .social-links {
+        gap: 1rem;
+    }
+    
+    .social-links a {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .social-links svg {
+        width: 18px;
+        height: 18px;
+    }
 }
