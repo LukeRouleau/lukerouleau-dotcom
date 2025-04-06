@@ -11,6 +11,14 @@ document.addEventListener("DOMContentLoaded", function() {
         // From blog/ directory back to root
         basePath = '../';
         headerPath = '../assets/components/header.html';
+        
+        // Add blog.css for post pages if not already loaded
+        if (!document.querySelector('link[href$="blog.css"]')) {
+            const blogCssLink = document.createElement('link');
+            blogCssLink.rel = 'stylesheet';
+            blogCssLink.href = '../assets/css/blog.css';
+            document.head.appendChild(blogCssLink);
+        }
     } else {
         // From root
         headerPath = './assets/components/header.html';

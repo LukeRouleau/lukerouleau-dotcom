@@ -17,7 +17,7 @@
     --link-gradient: linear-gradient(90deg, var(--accent-color), var(--accent-bright), var(--accent-color));
     --nav-underline-gradient: linear-gradient(90deg, var(--accent-color), var(--accent-bright));
     --link-gradient-size: 200% 100%;
-    --nav-bg: #2e6ba3;
+    --nav-bg: #2e4a64;
     --base-font-size: 17px;
     --heading-scale: 1.2;
 }
@@ -162,6 +162,21 @@ h2 {
     margin-top: 1.8em;
     margin-bottom: 0.8em;
     font-size: calc(var(--base-font-size) * 1.5);
+    position: relative;
+    padding-bottom: 0.4em;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--link-gradient);
+    background-size: var(--link-gradient-size);
+    animation: shimmer 3s infinite linear;
+    opacity: 0.7;
 }
 
 h3 {
@@ -308,7 +323,7 @@ nav ul li a:hover::after {
 }
 
 .resume-link {
-    background-color: #173958;
+    background-color: #132434;
     border-radius: 4px;
     padding: 4px 8px !important;
     font-family: 'Courier New', monospace;
@@ -378,6 +393,8 @@ article h2 {
     margin-top: 2em;
     color: var(--heading-color);
     font-size: calc(var(--base-font-size) * 1.4);
+    position: relative;
+    padding-bottom: 0.5em;
 }
 
 article h3 {
@@ -486,6 +503,10 @@ article a:hover {
         margin-bottom: 0.6em;
     }
     
+    h2::after {
+        width: 80px;
+    }
+    
     nav {
         margin-left: -24px;
         margin-right: -24px;
@@ -538,6 +559,10 @@ article a:hover {
         margin-top: 1.2em;
     }
     
+    h2::after {
+        width: 60px;
+    }
+    
     nav ul {
         padding: 9px 12px;
     }
@@ -562,4 +587,13 @@ article a:hover {
     .profile-pic, .musings-pic {
         max-height: 250px;
     }
+}
+
+.inline-logo {
+    height: 3rem;
+    width: auto;
+    margin-right: -15px;
+    margin-left: -20px;
+    vertical-align: middle;
+    padding-bottom: 8px;
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Dark Side of the Moon",
+        "date": "July 1, 2024",
+        "url": "./blog/dsotm.html",
+        "excerpt": "An exploration of Pink Floyd's masterpiece album and its enduring impact on music and culture. The album's themes of time, money, and mental health continue to resonate with listeners decades after its release."
+    },
+    {
+        "title": "You.",
+        "date": "May 19, 2024",
+        "url": "./blog/hello.html",
+        "excerpt": "What is \"you\", and where does it reside? The information filter which you've acquired through a lifetime of experience. The sum of all the things you've seen, heard, felt, and thought boiled down into a lens which weaves together preconscious stimuli into the world-model you uniquely inhabit."
+    },
+    {
+        "title": "The Art of Decision Making",
+        "date": "May 5, 2024",
+        "url": "./blog/post-example.html",
+        "excerpt": "We make thousands of decisions every day, from the mundane to the momentous. Yet we rarely step back to examine our decision-making process itself. How can we make better decisions? What mental models can guide us toward wiser choices?"
+    }
+] 

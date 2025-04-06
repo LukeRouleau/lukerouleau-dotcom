@@ -7,8 +7,11 @@
     <meta name="description" content="Blog posts and musings by Luke Rouleau">
     
     <!-- Favicon -->
-    <link rel="icon" href="./assets/imgs/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="./assets/imgs/favicon-180.png">
+    <link rel="icon" href="./assets/imgs/favicon.png" type="image/png">
+    <link rel="icon" href="./assets/imgs/favicon.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="./assets/imgs/favicon.png" sizes="16x16" type="image/png">
+    <link rel="shortcut icon" href="./assets/imgs/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/imgs/favicon.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +20,7 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/blog.css">
     
     <!-- Image loading script -->
     <link rel="stylesheet" href="./assets/css/blurry-load.min.css">
@@ -27,19 +31,24 @@
     <div class="container">
         <div id="header-placeholder"></div>
         <img class="musings-pic blurry-load" src="./assets/imgs/musings-min.png" alt="Luke Pontificating en el Alitplano de Uyuni" width="700" height="394">
-        <h1>Musings</h1>
+        <h1><img src="./assets/imgs/favicon.png" alt="Logo" class="inline-logo"> Musings</h1>
         
-        <ul class="post-list">
-            <h2>2024</h2>
-            <h3>May</h3>
-            <li><a href="./blog/dsotm.html">Dark Side of the Moon</a><span class="date-label">July 1, 2024</span></li>
-            <li><a href="./blog/hello.html">You.</a><span class="date-label">May 19, 2024</span></li>
-        </ul>
+        <div class="content-filter">
+            <button class="filter-button active" data-type="all">All</button>
+            <button class="filter-button" data-type="post">Posts</button>
+            <button class="filter-button" data-type="quote">Quotes</button>
+            <button class="filter-button" data-type="thought">Thoughts</button>
+        </div>
+        
+        <!-- Blog content will be loaded here by JavaScript -->
+        <div id="blog-container"></div>
         
         <footer class="footer">
             © 2024 Luke Rouleau. All rights reserved.
         </footer>
     </div>
+    
+    <script src="./assets/js/blog.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const blurryImageLoad = new BlurryImageLoad();

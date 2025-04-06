@@ -1,0 +1,169 @@
+/* Blog styles for the improved Musings page */
+
+.post-card {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(26, 42, 58, 0.1);
+}
+
+.post-card:last-child {
+    border-bottom: none;
+}
+
+.post-title {
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    color: var(--footer-color);
+}
+
+.post-date {
+    margin-right: 1rem;
+}
+
+.post-type {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 0.5rem;
+}
+
+.post-type-post {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.post-type-quote {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.post-type-thought {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.post-excerpt {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.read-more {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+/* Content filter */
+.content-filter {
+    display: flex;
+    margin-bottom: 2rem;
+    gap: 0.5rem;
+}
+
+.filter-button {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    background-color: var(--bg-color-mid);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    border: none;
+}
+
+.filter-button:hover {
+    background-color: var(--bg-color-deep);
+}
+
+.filter-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Quote styling */
+.quote-content {
+    font-style: italic;
+    position: relative;
+    padding-left: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.quote-content::before {
+    content: "\201C";
+    position: absolute;
+    left: 0;
+    top: -0.2rem;
+    font-size: 2rem;
+    color: var(--accent-color);
+    line-height: 1;
+}
+
+.quote-attribution {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--footer-color);
+    font-weight: 600;
+}
+
+.quote-attribution a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.quote-attribution a:hover {
+    text-decoration: underline;
+}
+
+/* Thought styling */
+.thought-content {
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+/* Year separator for all posts view */
+.year-separator {
+    margin: 2.5rem 0 1.5rem 0;
+    padding: 0.3rem 0;
+    background-color: var(--bg-color-mid);
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    box-shadow: none;
+    border: none;
+}
+
+.year-separator h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin: 0;
+    padding: 0;
+    font-weight: 700;
+    border: none;
+    border-bottom: none;
+    text-decoration: none;
+    box-shadow: none;
+    background-image: none;
+    position: relative;
+}
+
+.year-separator h2::after,
+.year-separator h2::before {
+    display: none;
+    content: none;
+}
+
+/* Add extra margin to first post of each year */
+.year-separator + .post-card {
+    margin-top: 1rem;
+} 
