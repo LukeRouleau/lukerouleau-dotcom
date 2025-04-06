@@ -5,13 +5,13 @@
         "content": "If you cannot get people to use your product for free, you shouldn't be wasting time trying to sell it (yet). You have a much more fundamental concern of product-market fit which needs to be addressed first. It is much easier to figure out how to sell something with user-traction than it is to figure out how to get users in the first place, which requires (the infamous) \"building something people want\"."
     },
     {
-        "title": "Simplicity",
+        "title": "Code should be as simple as possible, but no simpler.",
         "date": "Feb 27, 2025",
         "content": "One of the most fundamental insights on the journey from junior to senior developer: complexity COSTS. Simple abstractions with minimal cognitive load are the goal. Maintainability matters much more than raw speed because computer time is cheap and engineer time is expensive. A simple heuristic to grade the degree to which you got it right: how quickly and how painlessly will you be able to add a new feature in three months?"
     },
     {
-        "title": "Digital Silence",
+        "title": "Outsourcing cognition",
         "date": "May 22, 2024",
-        "content": "The most underrated digital skill may be the ability to sit with a question before reaching for search. Cultivating the patience to think through problems creates deeper neural pathways than immediately outsourcing cognition."
+        "content": "The most necessary digital skill of our era may be the ability to sit with a question before reaching for the LLM."
     }
 ] 
