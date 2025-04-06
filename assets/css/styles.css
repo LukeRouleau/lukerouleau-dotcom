@@ -308,9 +308,9 @@ nav ul li a:hover::after {
 }
 
 .resume-link {
-    background-color: #1e1e1e;
+    background-color: #173958;
     border-radius: 4px;
-    padding: 4px 12px !important;
+    padding: 4px 8px !important;
     font-family: 'Courier New', monospace;
     color: #e0e0e0 !important;
     font-weight: 400 !important;
@@ -318,7 +318,6 @@ nav ul li a:hover::after {
     font-size: 0.95rem !important;
     text-shadow: none !important;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     display: inline-block;
     white-space: nowrap;
 }
@@ -331,7 +330,7 @@ nav ul li a:hover::after {
 }
 
 .resume-link:hover {
-    background-color: #262626;
+    background-color: #141b3e;
     transform: translateY(-1px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
     color: #e0e0e0 !important;
@@ -494,18 +493,23 @@ article a:hover {
     }
     
     nav ul {
-        padding: 9px 24px;
-        flex-direction: column;
+        padding: 9px 16px;
+        flex-direction: row;
+        justify-content: space-between;
         align-items: center;
     }
     
     nav ul .nav-left, nav ul .nav-right {
         display: flex;
-        margin-bottom: 8px;
+        margin-bottom: 0;
     }
     
     nav ul .nav-right {
-        margin-top: 8px;
+        margin-top: 0;
+    }
+    
+    nav ul .nav-left li {
+        margin-right: 16px;
     }
     
     .profile-pic, .musings-pic {
@@ -513,6 +517,10 @@ article a:hover {
         margin-right: -24px;
         width: calc(100% + 48px);
         max-height: 350px;
+    }
+    
+    .resume-link {
+        padding: 4px 8px !important;
     }
 }
 
@@ -530,8 +538,16 @@ article a:hover {
         margin-top: 1.2em;
     }
     
+    nav ul {
+        padding: 9px 12px;
+    }
+    
     nav ul .nav-left li, nav ul .nav-right li {
-        margin: 0 10px;
+        margin: 0;
+    }
+    
+    nav ul .nav-left li {
+        margin-right: 14px;
     }
     
     nav ul li {
