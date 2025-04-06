@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let allPosts = [];
     let filteredPosts = [];
     let activeType = 'all';
+    const CACHE_EXPIRY = 3600000; // 1 hour in milliseconds
     
     // DOM elements
     const blogContainer = document.getElementById('blog-container');
@@ -36,8 +37,17 @@ document.addEventListener("DOMContentLoaded", function() {
             // Clear the blog container
             blogContainer.innerHTML = '';
             
+            // Show loading indicator
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.className = 'loading-indicator';
+            loadingIndicator.textContent = 'Loading content...';
+            blogContainer.appendChild(loadingIndicator);
+            
             // Load all content types
             const contentItems = await loadAllContentTypes();
+            
+            // Remove loading indicator
+            blogContainer.removeChild(loadingIndicator);
             
             // Sort all content by date (newest first)
             contentItems.sort((a, b) => {
@@ -61,40 +71,106 @@ document.addEventListener("DOMContentLoaded", function() {
             
         } catch (error) {
             console.error('Error loading content:', error);
+            // Show error message to user
+            blogContainer.innerHTML = '<div class="error-message">Failed to load content. Please try again later.</div>';
         }
     }
     
     async function loadAllContentTypes() {
         let allContent = [];
         
-        try {
-            // Load posts
-            const postsResponse = await fetch('./blog/posts/index.json');
-            const posts = await postsResponse.json();
-            allContent.push(...posts.map(post => ({...post, type: 'post'})));
-        } catch (error) {
-            console.error('Error loading posts:', error);
+        // Check if we have cached content that's still valid
+        const cachedContent = checkCache('blogContent');
+        if (cachedContent) {
+            return cachedContent;
         }
         
+        // Use Promise.all to fetch all content in parallel
         try {
-            // Load thoughts
-            const thoughtsResponse = await fetch('./blog/thoughts/index.json');
-            const thoughts = await thoughtsResponse.json();
-            allContent.push(...thoughts.map(thought => ({...thought, type: 'thought'})));
+            const [posts, thoughts, quotes] = await Promise.all([
+                fetchWithTimeout('./blog/posts/index.json', 5000),
+                fetchWithTimeout('./blog/thoughts/index.json', 5000),
+                fetchWithTimeout('./blog/quotes/index.json', 5000)
+            ]);
+            
+            if (posts) {
+                allContent.push(...posts.map(post => ({...post, type: 'post'})));
+            }
+            
+            if (thoughts) {
+                allContent.push(...thoughts.map(thought => ({...thought, type: 'thought'})));
+            }
+            
+            if (quotes) {
+                allContent.push(...quotes.map(quote => ({...quote, type: 'quote'})));
+            }
+            
+            // Cache the combined content
+            cacheContent('blogContent', allContent);
+            
+            return allContent;
         } catch (error) {
-            console.error('Error loading thoughts:', error);
+            console.error('Error loading content:', error);
+            // Return empty array to handle gracefully
+            return [];
         }
+    }
+    
+    async function fetchWithTimeout(url, timeout) {
+        try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            
+            const response = await fetch(url, { 
+                signal: controller.signal,
+                headers: { 'Cache-Control': 'no-cache' } 
+            });
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            return await response.json();
+        } catch (error) {
+            console.error(`Error fetching ${url}:`, error);
+            return null;
+        }
+    }
+    
+    function checkCache(key) {
+        const cached = localStorage.getItem(key);
+        if (!cached) return null;
         
         try {
-            // Load quotes
-            const quotesResponse = await fetch('./blog/quotes/index.json');
-            const quotes = await quotesResponse.json();
-            allContent.push(...quotes.map(quote => ({...quote, type: 'quote'})));
+            const { timestamp, data } = JSON.parse(cached);
+            const now = new Date().getTime();
+            
+            if (now - timestamp < CACHE_EXPIRY) {
+                return data;
+            } else {
+                // Cache expired
+                localStorage.removeItem(key);
+                return null;
+            }
         } catch (error) {
-            console.error('Error loading quotes:', error);
+            console.error('Error parsing cached data:', error);
+            localStorage.removeItem(key);
+            return null;
         }
-        
-        return allContent;
+    }
+    
+    function cacheContent(key, data) {
+        try {
+            const cacheObject = {
+                timestamp: new Date().getTime(),
+                data: data
+            };
+            localStorage.setItem(key, JSON.stringify(cacheObject));
+        } catch (error) {
+            console.error('Error caching content:', error);
+            // If we can't cache (e.g., private browsing mode), just continue
+        }
     }
     
     function createContentElement(item) {
@@ -155,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Prepare attribution with optional link
         let attribution = `— ${quote.author}`;
         if (quote.authorLink) {
-            attribution = `— <a href="${quote.authorLink}" target="_blank">${quote.author}</a>`;
+            attribution = `— <a href="${quote.authorLink}" target="_blank" rel="noopener">${quote.author}</a>`;
         }
         
         quoteCard.innerHTML = `
@@ -211,22 +287,24 @@ document.addEventListener("DOMContentLoaded", function() {
         // Sort years in descending order
         const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
         
+        // Create a document fragment to reduce reflow/repaint operations
+        const fragment = document.createDocumentFragment();
+        
         // Display posts grouped by year
         sortedYears.forEach(year => {
             // Create year separator
             const yearSeparator = document.createElement('div');
             yearSeparator.className = 'year-separator';
             yearSeparator.innerHTML = `<h2>${year}</h2>`;
-            
-            // Find the position to insert the year separator
-            // (before the first post of that year)
-            const firstPostOfYear = postsByYear[year][0];
-            blogContainer.insertBefore(yearSeparator, firstPostOfYear);
+            fragment.appendChild(yearSeparator);
             
             // Show all posts for this year
             postsByYear[year].forEach(post => {
                 post.style.display = 'block';
             });
         });
+        
+        // Append all at once
+        blogContainer.appendChild(fragment);
     }
 }); 

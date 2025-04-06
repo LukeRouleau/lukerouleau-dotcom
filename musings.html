@@ -6,6 +6,15 @@
     <title>Musings | Luke R.</title>
     <meta name="description" content="Blog posts and musings by Luke Rouleau">
     
+    <!-- Preload critical resources -->
+    <link rel="preload" href="./assets/imgs/favicon.png" as="image">
+    <link rel="preload" href="./assets/css/styles.css" as="style">
+    <link rel="preload" href="./assets/css/blog.css" as="style">
+    
+    <!-- DNS prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    
     <!-- Favicon -->
     <link rel="icon" href="./assets/imgs/favicon.png" type="image/png">
     <link rel="icon" href="./assets/imgs/favicon.png" sizes="32x32" type="image/png">
@@ -13,25 +22,39 @@
     <link rel="shortcut icon" href="./assets/imgs/favicon.png" type="image/png">
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/imgs/favicon.png">
     
-    <!-- Fonts -->
+    <!-- Fonts with display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     
     <!-- Styles -->
     <link rel="stylesheet" href="./assets/css/styles.css">
     <link rel="stylesheet" href="./assets/css/blog.css">
     
-    <!-- Image loading script -->
+    <!-- Image loading script - deferred -->
     <link rel="stylesheet" href="./assets/css/blurry-load.min.css">
-    <script src="./assets/js/blurry-load.min.js"></script>
-    <script src="./assets/js/header.js"></script>
+    <script src="./assets/js/blurry-load.min.js" defer></script>
+    <script src="./assets/js/header.js" defer></script>
+    
+    <!-- Additional SEO tags -->
+    <meta property="og:title" content="Musings | Luke R.">
+    <meta property="og:description" content="Blog posts and musings by Luke Rouleau">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lukerouleau.com/musings.html">
+    <meta property="og:image" content="https://lukerouleau.com/assets/imgs/musings-min.png">
 </head>
 <body>
     <div class="container">
         <div id="header-placeholder"></div>
-        <img class="musings-pic blurry-load" src="./assets/imgs/musings-min.png" alt="Luke Pontificating en el Alitplano de Uyuni" width="700" height="394">
-        <h1><img src="./assets/imgs/favicon.png" alt="Logo" class="inline-logo"> Musings</h1>
+        <img class="musings-pic blurry-load" 
+             src="./assets/imgs/musings-min.png" 
+             data-large="./assets/imgs/musings-min.png" 
+             alt="Luke Pontificating en el Alitplano de Uyuni" 
+             width="700" 
+             height="394"
+             loading="eager"
+             fetchpriority="high">
+        <h1><img src="./assets/imgs/favicon.png" alt="Logo" class="inline-logo" width="32" height="32"> Musings</h1>
         
         <div class="content-filter">
             <button class="filter-button active" data-type="all">All</button>
@@ -48,7 +71,7 @@
         </footer>
     </div>
     
-    <script src="./assets/js/blog.js"></script>
+    <script src="./assets/js/blog.js" defer></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const blurryImageLoad = new BlurryImageLoad();
