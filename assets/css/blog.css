@@ -1,9 +1,9 @@
 /* Blog styles for the improved Musings page */
 
 .post-card {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(26, 42, 58, 0.1);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(26, 42, 58, 0.08);
 }
 
 .post-card:last-child {
@@ -11,29 +11,42 @@
 }
 
 .post-title {
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
+    margin-bottom: 0.3rem;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.post-title a {
+    color: var(--heading-color);
+    transition: color 0.2s ease;
+}
+
+.post-title a:hover {
+    color: var(--accent-color);
 }
 
 .post-meta {
     display: flex;
     align-items: center;
-    margin-bottom: 0.8rem;
-    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.8rem;
     color: var(--footer-color);
 }
 
 .post-date {
-    margin-right: 1rem;
+    margin-right: 0.7rem;
+    font-weight: 300;
 }
 
 .post-type {
     display: inline-block;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    margin-right: 0.5rem;
+    padding: 0.12rem 0.35rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    margin-right: 0.4rem;
+    letter-spacing: 0.02em;
 }
 
 .post-type-post {
@@ -52,29 +65,37 @@
 }
 
 .post-excerpt {
-    margin-bottom: 1rem;
-    line-height: 1.6;
+    margin-bottom: 0.6rem;
+    line-height: 1.4;
+    font-weight: 300;
+}
+
+.post-excerpt p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    font-weight: 300;
+    color: var(--text-color-lighter);
 }
 
 .read-more {
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 500;
+    font-size: 0.8rem;
 }
 
 /* Content filter */
 .content-filter {
     display: flex;
-    margin-bottom: 2rem;
-    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    gap: 0.3rem;
 }
 
 .filter-button {
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
     background-color: var(--bg-color-mid);
     color: var(--text-color);
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.8rem;
+    font-weight: 500;
     transition: background-color 0.2s ease;
     cursor: pointer;
     border: none;
@@ -93,10 +114,12 @@
 .quote-content {
     font-style: italic;
     position: relative;
-    padding-left: 1.5rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    padding-left: 1.2rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.95rem;
     line-height: 1.5;
+    font-weight: 300;
+    color: var(--text-color-lighter);
 }
 
 .quote-content::before {
@@ -104,16 +127,17 @@
     position: absolute;
     left: 0;
     top: -0.2rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--accent-color);
     line-height: 1;
+    opacity: 0.8;
 }
 
 .quote-attribution {
     text-align: right;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: var(--footer-color);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .quote-attribution a {
@@ -127,16 +151,18 @@
 
 /* Thought styling */
 .thought-content {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     line-height: 1.5;
+    font-weight: 300;
+    color: var(--text-color-lighter);
 }
 
 /* Year separator for all posts view */
 .year-separator {
-    margin: 2.5rem 0 1.5rem 0;
-    padding: 0.3rem 0;
+    margin: 1.8rem 0 1rem 0;
+    padding: 0.2rem 0;
     background-color: var(--bg-color-mid);
-    border-radius: 4px;
+    border-radius: 3px;
     text-align: center;
     width: 100%;
     box-shadow: none;
@@ -144,11 +170,11 @@
 }
 
 .year-separator h2 {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: var(--primary-color);
     margin: 0;
     padding: 0;
-    font-weight: 700;
+    font-weight: 600;
     border: none;
     border-bottom: none;
     text-decoration: none;
@@ -165,5 +191,38 @@
 
 /* Add extra margin to first post of each year */
 .year-separator + .post-card {
-    margin-top: 1rem;
+    margin-top: 0.7rem;
+}
+
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 1rem;
+    }
+    
+    .post-excerpt {
+        line-height: 1.4;
+    }
+    
+    .post-excerpt p,
+    .quote-content, 
+    .thought-content {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-title {
+        font-size: 0.95rem;
+    }
+    
+    .post-type {
+        padding: 0.1rem 0.3rem;
+        font-size: 0.65rem;
+    }
+    
+    .post-excerpt p,
+    .quote-content, 
+    .thought-content {
+        font-size: 0.85rem;
+    }
 } 

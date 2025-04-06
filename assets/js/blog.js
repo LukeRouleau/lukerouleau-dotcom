@@ -270,6 +270,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const existingYearSeparators = blogContainer.querySelectorAll('.year-separator');
         existingYearSeparators.forEach(separator => separator.remove());
         
+        // Create a document fragment to reduce reflow/repaint operations
+        const fragment = document.createDocumentFragment();
+        
         // Group posts by year
         const postsByYear = {};
         
@@ -282,13 +285,15 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             
             postsByYear[year].push(post);
+            
+            // Remove the post from the DOM so we can reinsert it later
+            if (post.parentNode) {
+                post.parentNode.removeChild(post);
+            }
         });
         
         // Sort years in descending order
         const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
-        
-        // Create a document fragment to reduce reflow/repaint operations
-        const fragment = document.createDocumentFragment();
         
         // Display posts grouped by year
         sortedYears.forEach(year => {
@@ -298,9 +303,10 @@ document.addEventListener("DOMContentLoaded", function() {
             yearSeparator.innerHTML = `<h2>${year}</h2>`;
             fragment.appendChild(yearSeparator);
             
-            // Show all posts for this year
+            // Add all posts for this year right after the separator
             postsByYear[year].forEach(post => {
                 post.style.display = 'block';
+                fragment.appendChild(post);
             });
         });
         
