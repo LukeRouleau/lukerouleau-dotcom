@@ -125,6 +125,7 @@ body::after {
     position: relative;
     z-index: 2;
     overflow: hidden;
+    height: fit-content;
 }
 
 .profile-pic, .musings-pic {
