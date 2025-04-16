@@ -191,8 +191,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const postCard = document.createElement('div');
         postCard.className = 'post-card';
         
+        // Ensure the URL never has .html suffix
+        let cleanUrl = post.url;
+        if (cleanUrl.endsWith('.html')) {
+            cleanUrl = cleanUrl.substring(0, cleanUrl.length - 5);
+        }
+        
         postCard.innerHTML = `
-            <h2 class="post-title"><a href="${post.url}">${post.title}</a></h2>
+            <h2 class="post-title"><a href="${cleanUrl}">${post.title}</a></h2>
             <div class="post-meta">
                 <span class="post-date">${post.date}</span>
                 <span class="post-type post-type-post" data-type="post">Post</span>
@@ -200,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="post-excerpt">
                 <p>${post.excerpt}</p>
             </div>
-            <a href="${post.url}" class="read-more">Read more →</a>
+            <a href="${cleanUrl}" class="read-more">Read more →</a>
         `;
         
         return postCard;
