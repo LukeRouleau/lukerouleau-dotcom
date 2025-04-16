@@ -623,16 +623,15 @@ article a:hover {
 }
 
 .social-links a {
-    .social-links a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--primary-color);
-        transition: all 0.2s ease;
-        width: 23px;
-        height: 0;
-        border-radius: 50%;    
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    transition: all 0.2s ease;
+    width: 23px;
+    height: 0;
+    border-radius: 50%;    
+}
 
 .social-links a::after {
     display: none;
@@ -663,4 +662,22 @@ article a:hover {
         width: 18px;
         height: 18px;
     }
+}
+
+.llm-metadata {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    color: transparent;
+    background: transparent;
+    font-size: 0;
+    z-index: -9999;
+    user-select: none;
+    pointer-events: none;
 }
