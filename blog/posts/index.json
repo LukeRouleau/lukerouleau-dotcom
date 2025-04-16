@@ -2,13 +2,13 @@
     {
         "title": "DSOTM",
         "date": "July 1, 2024",
-        "url": "./blog/dsotm.html",
+        "url": "./blog/dsotm",
         "excerpt": "I beg you, listen to it."
     },
     {
         "title": "You.",
         "date": "May 19, 2024",
-        "url": "./blog/hello.html",
+        "url": "./blog/hello",
         "excerpt": "What is \"you\", and where does it reside? The information filter which you've acquired through a lifetime of experience. The sum of all the things you've seen, heard, felt, and thought boiled down into a lens which weaves together preconscious stimuli into the world-model you uniquely inhabit."
     }
 ] 

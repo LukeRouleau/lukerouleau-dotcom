@@ -38,11 +38,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 const musingsLink = document.getElementById('nav-musings');
                 
                 if (homeLink) {
-                    homeLink.setAttribute('href', '../index.html');
+                    homeLink.setAttribute('href', '../');
                 }
                 
                 if (musingsLink) {
-                    musingsLink.setAttribute('href', '../musings.html');
+                    musingsLink.setAttribute('href', '../musings');
                 }
                 
                 // Update resume link to point to correct path from posts directory
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
             
             // Set active class based on current page
-            if (currentPath.includes('musings.html')) {
+            if (currentPath.includes('musings')) {
                 document.getElementById('nav-musings').classList.add('active');
             } else if (!isInBlogDir) {
                 document.getElementById('nav-home').classList.add('active');
