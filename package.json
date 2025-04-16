@@ -12,5 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^3.0.4"
+  },
+  "dependencies": {
+    "marked": "^15.0.8",
+    "yaml": "^2.7.1"
   }
 }
