@@ -1,14 +1,20 @@
 [
-    {
-        "title": "DSOTM",
-        "date": "July 1, 2024",
-        "url": "./blog/dsotm",
-        "excerpt": "I beg you, listen to it."
-    },
-    {
-        "title": "You.",
-        "date": "May 19, 2024",
-        "url": "./blog/hello",
-        "excerpt": "What is \"you\", and where does it reside? The information filter which you've acquired through a lifetime of experience. The sum of all the things you've seen, heard, felt, and thought boiled down into a lens which weaves together preconscious stimuli into the world-model you uniquely inhabit."
-    }
-] 
+  {
+    "title": "Notes on a Spatial Architecture",
+    "date": "April 15, 2025",
+    "url": "./blog/a-spatial-architecture",
+    "excerpt": "Finally building out my mental model on a flavor of spatial neural accelerator that is good for CNNs (not for transformers)."
+  },
+  {
+    "title": "DSOTM",
+    "date": "July 1, 2024",
+    "url": "./blog/dsotm",
+    "excerpt": "I beg you, listen to it."
+  },
+  {
+    "title": "You.",
+    "date": "May 19, 2024",
+    "url": "./blog/hello",
+    "excerpt": "What is \"you\", and where does it reside? The information filter which you've acquired through a lifetime of experience. The sum of all the things you've seen, heard, felt, and thought boiled down into a lens which weaves together preconscious stimuli into the world-model you uniquely inhabit."
+  }
+]

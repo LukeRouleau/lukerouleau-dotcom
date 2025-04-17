@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes on a Spatial Architecture | Luke R.</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="../assets/js/header.js"></script>
+
+    <!-- Google Analytics tag (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6VRZ4KLR5D"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6VRZ4KLR5D');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="header-placeholder"></div>
+        <h1>Notes on a Spatial Architecture</h1>
+        <div class="post-meta">
+            <span class="post-date">April 15, 2025</span>
+            <span class="post-type post-type-post" data-type="post">Post</span>
+        </div>
+        <article>
+            <h2>My Mental Model on One Flavor of Spatial Architecture</h2>
+            
+            <h3>Introduction: CNNs are Static, Acyclic DAGs Which Can Be Massively Tiled</h3>
+
+            <p>If you wanted to build a highly efficient neural network accelerator, especially one optimized for <a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">Convolutional Neural Networks (CNNs)</a>, you'd observe that most CNN backbones are static (i.e., they do not have conditional branches nor <a href="https://en.wikipedia.org/wiki/Attention_(machine_learning)">attention-like dynamic weights</a>) and contain mostly linear operations (convolutions) that can be tiled into many sub-computations.</p>
+
+            <p><strong>Tiling</strong> an operation simply means that instead of performing one large operation in a single pass, the problem can be decomposed into N smaller subproblems with the final results being recombined to produce output equivalent to the original operation. Mathematically, <code>y = f(x)</code> and <code>y = f(x₀) + f(x₁) + ... + f(xₙ)</code> where <code>[x₀, x₁, …, xₙ]</code> is <code>x</code> divided into N chunks.</p> 
+            
+            <p>This tiling is possible with linear operations <a href="https://undergroundmathematics.org/glossary/linear-operator">by definition</a>, allowing us to break up matrix-multiplications, convolutions, and other operations. This is advantageous because linear operations constitute the vast majority of neural network computation, and breaking them into independent chunks enables massive parallelization.</p>
+
+            <p>It's crucial to remember that the bulk of energy consumption in chips <a href="https://sc23.supercomputing.org/proceedings/exhibitor_forum/exhibitor_forum_pages/exforum114.html">comes from data movement</a>. The more data moved and the greater the distance, the higher the energy cost.</p>
+
+            <h3>A Spatial Solution</h3>
+
+            <p>Given these insights on the workloads our accelerator should excel at, how can we leverage them in our design?</p>
+
+            <p>If we can divide each layer in a CNN into numerous small sub-computations across every layer, then we arrive at a second-order insight: this workload resembles what <a href="https://en.wikipedia.org/wiki/Henry_Ford">Henry Ford</a> optimized in his factory floors. We can divide all processing into a long chain (a pipeline), where each computational unit at each stage receives its fragment of work from the previous stage, processes it, and passes the result to the next unit. From a high-level perspective, the conversion from raw input to output resembles a wavefront flowing through the system.</p>
+
+            <p>To make this analogy concrete: the wavefront through our accelerator represents the neural network activations flowing from input to output, being progressively transformed into higher-level features by each processing unit. In spatial accelerators, these units are typically small processor cores paired with specialized linear algebra compute engines. These processing elements can be arranged in a grid, connected by programmable data pathways with North-South and East-West Network-on-Chip (NoC) lanes.</p>
+
+            <p>Since each processing core is individually programmable, as are their NoC connections, we can implement various <a href="https://www.untether.ai/untether-ai-announces-speedai-accelerator-cards-as-worlds-highest-performing-most-energy-efficient-ai-accelerators-according-to-mlperf-benchmarks/">CNN architectures incredibly efficiently</a>, provided we have sufficient processing elements to accommodate the network on the chip.</p>
+
+            <p>Why is this approach so efficient? In traditional <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">von Neumann architectures</a>, intermediate results must be stored in RAM or shared memory, creating a load-compute-store cycle for each operation. While caches help mitigate data movement costs, our spatial processor inherently eliminates this bottleneck—all intermediate results flow directly to the next processing element!</p>
+
+            <p>The primary implementation concern for such an architecture is ensuring that no individual processing element creates a bottleneck, as the system can only process as quickly as its slowest component.</p>
+            
+            <h3>Citations</h3>
+            <div class="citations-container" style="overflow-x: auto; width: 100%; max-width: 100%;">
+                <pre class="citations" style="white-space: pre; word-wrap: normal; font-size: 0.85rem;">
+1. "Convolutional Neural Network." Wikipedia, https://en.wikipedia.org/wiki/Convolutional_neural_network
+2. "Attention (machine learning)." Wikipedia, https://en.wikipedia.org/wiki/Attention_(machine_learning)
+3. "Linear Operator." Underground Mathematics, https://undergroundmathematics.org/glossary/linear-operator
+4. "Energy consumption in chips." SC23 Supercomputing, https://sc23.supercomputing.org/proceedings/exhibitor_forum/exhibitor_forum_pages/exforum114.html
+5. "Henry Ford." Wikipedia, https://en.wikipedia.org/wiki/Henry_Ford
+6. "Untether AI Announces speedAI™ Accelerator Cards." Untether.ai, https://www.untether.ai/untether-ai-announces-speedai-accelerator-cards-as-worlds-highest-performing-most-energy-efficient-ai-accelerators-according-to-mlperf-benchmarks/
+7. "Von Neumann Architecture." Wikipedia, https://en.wikipedia.org/wiki/Von_Neumann_architecture
+                </pre>
+            </div>
+        </article>
+        
+        <footer class="footer">
+            © 2025 Luke Rouleau. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html> 
