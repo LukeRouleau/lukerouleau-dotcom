@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vLLM Paged Attention: Inter-Disciplinary Knowledge Matters | Luke R.</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="../assets/js/header.js"></script>
+    
+    <!-- Google Analytics tag (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6VRZ4KLR5D"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6VRZ4KLR5D');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="header-placeholder"></div>
+        <h1>vLLM Paged Attention: Inter-Disciplinary Knowledge Matters</h1>
+        <div class="post-meta">
+            <span class="post-date">April 19, 2025</span>
+            <span class="post-type post-type-post" data-type="post">Post</span>
+        </div>
+        <article>
+            <h2>Knowing how lots of problems are solved helps solve new ones.</h2>
+
+            <p>
+                I just read up on <a href="https://blog.vllm.ai/2023/06/20/vllm.html">vLLM's PagedAttention</a>. It is such an excellent example of how inter-disciplinary knowledge matters. With billions of dollars being spent on serving LLMs, there is a great incentive to make doing so faster and cheaper.
+            </p>
+            
+            <p>
+                The authors of vLLM were able to draw on their understanding of virtual memory paging from operating systems to build a more efficient way to manage memory for LLM inference. They do an excellent job in their blog post of explaining how and why it works. Essentially, PagedAttention partitions the KV cache (key-value tensors) of each sequence into blocks, with each block containing the keys and values for a fixed number of tokens. This approach allows storing the continuous keys and values in non-contiguous memory space, similar to how operating systems manage virtual memory.
+            </p>
+            
+            <p>
+                In traditional approaches, the KV cache requires large contiguous memory that leads to significant waste due to fragmentation and over-reservation (60-80% waste according to the blog). With PagedAttention, the physical blocks are allocated on demand as new tokens are generated and don't need to be contiguous in memory. This results in near-optimal memory usage with under 4% waste, allowing the system to batch more sequences together and significantly increase throughput.
+            </p>
+            
+            <p>
+                This strikes me as a brilliant adaptation of existing computer science concepts to solve a new problem in AI. It's a great example of how inter-disciplinary knowledge matters. The genius is in recognizing the commonalities between how operating systems manage virtual memory and how LLM inference could more efficiently handle key-value caches.
+            </p>
+            
+            <p>
+                This also reminds me of a common theme raised by <a href="https://www.youtube.com/c/DwarkeshPatel">Dwarkesh Patel</a> on his podcast, which is something like:
+                <blockquote>
+                    "If LLMs have read and internalized all of the world's knowledge, and they are able to reason about it, then why are they unable to make these kind of cross-disciplinary connections that humans have done time and time again? Shouldn't they be able to do this at a scale we've never seen before since they've memorized more than any of our minds can comprehend?"
+                </blockquote>
+                How much of creativity is truly novel, and how much is just making novel connections between seemingly disparate ideas? Are both forms obtainable by LLMs? How can our training modality be augmented to encourage this kind of creativity? How does the human mind do it so cheaply? 
+            </p>
+
+        </article>
+            
+            <h3>Citations</h3>
+            <div class="citations-container" style="overflow-x: auto; width: 100%; max-width: 100%;">
+                <pre class="citations" style="white-space: pre; word-wrap: normal; font-size: 0.85rem;">
+1. "vLLM: Easy, Fast, and Cheap LLM Serving with PagedAttention." vLLM Blog, https://blog.vllm.ai/2023/06/20/vllm.html
+2. "Dwarkesh Patel - The AI Podcast." YouTube, https://www.youtube.com/c/DwarkeshPatel
+                </pre>
+            </div>
+            
+        </article>
+        
+        <footer class="footer">
+            © 2025 Luke Rouleau. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html> 
