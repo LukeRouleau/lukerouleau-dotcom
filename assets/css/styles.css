@@ -681,3 +681,260 @@ article a:hover {
     user-select: none;
     pointer-events: none;
 }
+
+/* Floating Widgets */
+.floating-widgets {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    width: 280px;
+    display: none; /* Hidden by default, will be displayed on wider screens */
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+}
+
+.widget {
+    background-color: var(--container-bg);
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--link-gradient);
+    background-size: 100% 200%;
+    animation: shimmer 3s infinite linear;
+}
+
+.widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.widget h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    color: var(--heading-color);
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.widget h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color);
+}
+
+.widget-content {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+/* Book widget styles */
+.book-cover {
+    width: 70px;
+    height: 100px;
+    float: left;
+    margin-right: 12px;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.book-title {
+    font-weight: 500;
+    margin: 0 0 5px 0;
+    font-size: 0.9rem;
+}
+
+.book-author {
+    font-style: italic;
+    color: var(--footer-color);
+    margin: 0;
+    font-size: 0.8rem;
+}
+
+/* Progress bar */
+.progress-bar {
+    height: 6px;
+    background-color: var(--background-color);
+    border-radius: 3px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background: var(--link-gradient);
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite linear;
+    border-radius: 3px;
+}
+
+.progress-text {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--footer-color);
+    margin: 0;
+}
+
+/* Contact buttons */
+.contact-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--bg-color-mid);
+    color: var(--primary-color);
+    border-radius: 4px;
+    margin-bottom: 8px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.contact-button:hover {
+    background-color: var(--bg-color-deep);
+    transform: translateX(3px);
+    color: var(--primary-color);
+}
+
+.contact-button:hover::after {
+    display: none;
+}
+
+.contact-button::after {
+    display: none;
+}
+
+/* Widget post list */
+.widget-post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.widget-post-list li {
+    border-bottom: 1px solid rgba(26, 42, 58, 0.08);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.widget-post-list li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.widget-post-list a {
+    display: block;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--text-color-lighter);
+}
+
+.widget-post-list a:hover {
+    color: var(--accent-color);
+}
+
+/* Tag cloud */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tag {
+    display: inline-block;
+    padding: 3px 8px;
+    background-color: var(--bg-color-mid);
+    border-radius: 3px;
+    font-size: 0.75rem;
+    color: var(--text-color-lighter);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tag:hover {
+    background-color: var(--bg-color-deep);
+    transform: scale(1.05);
+    color: var(--accent-color);
+}
+
+.tag:hover::after {
+    display: none;
+}
+
+.tag::after {
+    display: none;
+}
+
+/* Search container */
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 8px 10px;
+    border: 1px solid var(--bg-color-mid);
+    border-radius: 4px 0 0 4px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.search-container input:focus {
+    border-color: var(--accent-color);
+}
+
+.search-container button {
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.search-container button:hover {
+    background-color: var(--accent-color);
+}
+
+/* Media query to show widgets on larger screens */
+@media (min-width: 1300px) {
+    .floating-widgets {
+        display: flex;
+    }
+}
+
+/* Media query for ultra-wide screens - add left widgets */
+@media (min-width: 1600px) {
+    .container {
+        margin: 0 auto;
+    }
+    
+    .floating-widgets {
+        right: calc(50% + 460px);
+    }
+    
+    /* Left side widgets could be added here as well */
+    body::after {
+        opacity: 0.7; /* Enhance glow effect on wide screens */
+    }
+}
