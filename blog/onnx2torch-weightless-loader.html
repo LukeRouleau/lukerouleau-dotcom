@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weightless ONNX Model Loader with ONNX2Torch | Luke R.</title>
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <script src="../assets/js/header.js"></script>
+    
+    <!-- Google Analytics tag (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6VRZ4KLR5D"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      
+      gtag('config', 'G-6VRZ4KLR5D');
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div id="header-placeholder"></div>
+        <h1>Weightless ONNX Model Loader with ONNX2Torch</h1>
+        <div class="post-meta">
+            <span class="post-date">May 16, 2025</span>
+            <span class="post-type post-type-post" data-type="post">Post</span>
+        </div>
+        <article>
+            <h2>How to enable the loading of an ONNX model back into fx.GraphModule IR without needing the overhead of the weights.</h2>
+            
+            <p>Working with large neural network models has always presented a challenging problem: how do you efficiently analyze model architecture without loading gigabytes of weights? This is especially frustrating when you're building ML compilers that only need the model structure to generate appropriate intermediate representations (IR).</p>
+            
+            <p>I recently faced this exact problem when developing a compiler frontend that needed to ingest ONNX models and convert them to PyTorch's <code>fx.GraphModule</code> IR. The standard approach requires loading both the ONNX model definition <em>and</em> its external weight files, even though I only cared about recovering the graph structure.</p>
+            
+            <h3>The Weight Problem</h3>
+            
+            <p>ONNX is a great serialization format for neural networks, but when you export large models, they typically split weights into separate files. This design is sensible for distribution, but creates unnecessary overhead when your goal is structural analysis or IR conversion.</p>
+            
+            <p>In compiler development, we often need to convert between different IRs. When using ONNX as your serialization framework, the conversion back to PyTorch's <code>fx.GraphModule</code> IR becomes a bottleneck if you need to load multi-gigabyte weight files just to recover the graph structure.</p>
+            
+            <h3>A Simple Solution: Meta Tensors</h3>
+            
+            <p>After digging into the ONNX and onnx2torch implementations, I discovered that a remarkably small patch could solve this problem. The key insight was to use PyTorch's "meta" device tensors (also known as FakeTensors) to represent parameters with the correct shapes and dtypes but without actual data.</p>
+            
+            <p>With just a tiny context manager, I was able to:</p>
+            
+            <ol>
+                <li>Override ONNX's external data loading function to avoid loading weight files</li>
+                <li>Replace tensor conversion with meta-device tensors instead of real ones</li>
+                <li>Ensure that the resulting PyTorch model preserves the complete graph structure</li>
+            </ol>
+            
+            <p>This approach allows compilers to recover the <code>fx.GraphModule</code> IR directly from ONNX without the weight overhead, making the frontend ingestion process much more efficient.</p>
+            
+            <h3>The Implementation</h3>
+            
+            <p><a href="https://github.com/LukeRouleau/onnx2torch-weightless-loader">Here's</a> the complete implementation of the weightless loader. The magic happens in just two key patches: bypassing the external data loading and creating meta tensors with the right shapes.</p>
+            
+            <pre><code class="language-python">"""
+`onnx2torch` Weightless Loader Patch
+
+This module provides a patch for the `onnx2torch` library that enables
+loading ONNX models without their external weight files by using FakeTensors
+(torch meta tensors).
+"""
+
+import torch
+from contextlib import contextmanager
+
+import onnx
+from onnx import external_data_helper
+from onnx2torch.onnx_tensor import OnnxTensor
+from onnx2torch.utils.dtype import onnx_dtype_to_torch_dtype
+
+
+def to_torch_weightless(self: OnnxTensor) -> torch.Tensor:
+    """Create a fake tensor from ONNX TensorProto with the right shape and dtype"""
+    shape = [dim for dim in self._proto.dims]
+    dtype = onnx_dtype_to_torch_dtype(self._proto.data_type)
+    return torch.empty(shape, dtype=dtype, device="meta")
+
+
+@contextmanager
+def weightless_onnx_loader():
+    """
+    Context manager that patches onnx2torch to load models without external weights.
+    
+    When used, this allows loading models with external data references
+    even if the weight files are missing, by creating FakeTensors with the
+    correct shapes and dtypes instead.
+    
+    Usage:
+        with weightless_onnx_loader():
+            model = onnx2torch.convert(onnx_model)
+    """
+    orig_load_extern = onnx.load_external_data_for_model
+    orig_to_torch = OnnxTensor.to_torch
+    orig_device = torch.get_default_device()
+
+    try:
+        # Apply patches to all relevant places
+        onnx.load_external_data_for_model = lambda *args, **kwargs: None
+        OnnxTensor.to_torch = to_torch_weightless
+        torch.set_default_device("meta")
+        yield
+    finally:
+        # Restore original methods
+        onnx.load_external_data_for_model = orig_load_extern
+        OnnxTensor.to_torch = orig_to_torch
+        torch.set_default_device(orig_device)</code></pre>
+            
+            <h3>Using the Weightless Loader</h3>
+            
+            <p>Using this patch is extremely simple:</p>
+            
+            <pre><code class="language-python">import onnx
+import onnx2torch
+from weightless_loader import weightless_onnx_loader
+
+# Load an ONNX model (even if external weights are missing)
+onnx_model = onnx.load("large_model.onnx")
+
+# Convert to PyTorch with our weightless loader
+with weightless_onnx_loader():
+    torch_model = onnx2torch.convert(onnx_model)
+
+# Now you have a PyTorch model with the same structure
+# Convert to FX Graph for compiler ingestion
+fx_graph = torch.fx.symbolic_trace(torch_model)</code></pre>
+            
+            <h3>Limitations to Be Aware Of</h3>
+            
+            <p>I should note that this implementation is intentionally minimal and somewhat brittle. It's tightly coupled to specific versions of ONNX and onnx2torch, and different versions might require adjustments. Different ONNX opset versions and custom operator registries will likely need special handling.</p>
+            
+            <p>But the core concept is sound and can be adapted to other conversion workflows. For ML compiler developers, this pattern demonstrates exactly what's needed to recover graph structure without weight overhead.</p>
+            
+            <h3>Why This Matters for Compilers</h3>
+            
+            <p>For those building ML compilers, this approach offers several advantages:</p>
+            
+            <ul>
+                <li>Significantly reduces memory requirements when ingesting large models</li>
+                <li>Speeds up the frontend conversion process by eliminating weight loading</li>
+                <li>Enables testing compiler passes with realistic model architectures without the weight overhead</li>
+                <li>Simplifies the development and testing cycle for model optimization and transformations</li>
+            </ul>
+            
+            <p>The ability to efficiently recover the <code>fx.GraphModule</code> IR from ONNX models without loading weights has been a game-changer for my compiler development workflow, and I hope sharing this simple but effective patch helps others facing similar challenges.</p>
+            
+            <h3>Conclusion</h3>
+            
+            <p>Sometimes the most elegant solutions are also the simplest. By leveraging PyTorch's meta device and making minimal modifications to the ONNX loading process, we can dramatically improve the efficiency of working with large model architectures in compiler frontends.</p>
+            
+            <p>If you're using ONNX as your serialization framework and need to recover PyTorch's <code>fx.GraphModule</code> IR, give this weightless loader a try. See the <a href="https://github.com/LukeRouleau/onnx2torch-weightless-loader">GitHub repo</a> for more details.</p>
+            
+            <h3>Citations</h3>
+            <div class="citations-container" style="overflow-x: auto; width: 100%; max-width: 100%;">
+                <pre class="citations" style="white-space: pre; word-wrap: normal; font-size: 0.85rem;">
+1. "onnx2torch" GitHub, https://github.com/ENOT-AutoDL/onnx2torch
+2. "onnx2torch-weightless-loader" GitHub, https://github.com/LukeRouleau/onnx2torch-weightless-loader
+                </pre>
+            </div>
+        </article>
+        
+        <footer class="footer">
+            © 2025 Luke Rouleau. All rights reserved.
+        </footer>
+    </div>
+</body>
+</html>

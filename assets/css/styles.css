@@ -388,13 +388,16 @@ nav ul li a:hover::after {
 
 article {
     margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
 }
 
 article p {
-    margin-bottom: var(--spacing-md);
-    line-height: 1.6;
-    font-size: 1em;
-    font-weight: 300;
+    margin-bottom: 1.1em;
+    text-align: justify;
+    text-justify: inter-word;
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
 }
 
 article h2 {
@@ -680,4 +683,36 @@ article a:hover {
     z-index: -9999;
     user-select: none;
     pointer-events: none;
+}
+
+/* Code block styling */
+pre {
+    margin: 1.5em 0;
+    padding: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+pre code {
+    display: block;
+    padding: 1em;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    overflow-x: auto;
+    border-radius: 8px;
+}
+
+code {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Highlight.js overrides for better readability */
+.hljs {
+    background: #282c34 !important;
 }
