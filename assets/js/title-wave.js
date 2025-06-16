@@ -9,14 +9,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const titles = document.querySelectorAll('h1');
     
     titles.forEach((title, titleIndex) => {
-        // Store original text
+        // Check if there's a favicon/logo image
+        const faviconImg = title.querySelector('.inline-logo');
+        
+        // Store original text (excluding any HTML elements)
         const originalText = title.textContent;
         
         // Clear the element
         title.innerHTML = '';
         
-        // Split text into individual characters
-        originalText.split('').forEach((char, charIndex) => {
+        // Re-add the favicon if it existed
+        if (faviconImg) {
+            title.appendChild(faviconImg.cloneNode(true));
+            title.appendChild(document.createTextNode(' ')); // Add space after favicon
+        }
+        
+        // Split text into individual characters (excluding the favicon text)
+        const textToAnimate = faviconImg ? originalText.replace(/^\s*/, '').trim() : originalText;
+        textToAnimate.split('').forEach((char, charIndex) => {
             const span = document.createElement('span');
             
             // Handle spaces
