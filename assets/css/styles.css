@@ -1,23 +1,23 @@
 :root {
-    --primary-color: #2a5a7a;
-    --secondary-color: #4a927a;
-    --accent-color: #d18237;
-    --accent-bright: #f2a04a;
-    --accent-complement: #5e37d1;
-    --text-color: #1a2a3a;
-    --text-color-lighter: #233547;
-    --heading-color: #2d4a64;
-    --background-color: #d1e2ee;
-    --bg-color-mid: #c3d7e3;
-    --bg-color-deep: #b0c9dc;
-    --glow-color: #4a85b9;
-    --glow-color-bright: #5a9dd6;
+    --primary-color: #1a365d;
+    --secondary-color: #2c7a7b;
+    --accent-color: #dd6b20;
+    --accent-bright: #f6ad55;
+    --accent-complement: #2b6cb0;
+    --text-color: #1a202c;
+    --text-color-lighter: #2d3748;
+    --heading-color: #2b4054;
+    --background-color: #f7fafc;
+    --bg-color-mid: #edf2f7;
+    --bg-color-deep: #e2e8f0;
+    --glow-color: #4299e1;
+    --glow-color-bright: #63b3ed;
     --container-bg: #ffffff;
-    --footer-color: #566878;
+    --footer-color: #718096;
     --link-gradient: linear-gradient(90deg, var(--accent-color), var(--accent-bright), var(--accent-color));
     --nav-underline-gradient: linear-gradient(90deg, var(--accent-color), var(--accent-bright));
     --link-gradient-size: 200% 100%;
-    --nav-bg: #2e4a64;
+    --nav-bg: #2d4054;
     --base-font-size: 18px;
     --heading-scale: 1.2;
     --spacing-xs: 0.25rem;
@@ -39,10 +39,10 @@ body {
     min-height: 100vh;
     background: 
         linear-gradient(125deg, 
-            #f6f8fb 0%, 
-            #c5d1e4 100%),
-        radial-gradient(ellipse at top left, rgba(242, 160, 74, 0.12) 0%, transparent 50%),
-        radial-gradient(ellipse at bottom right, rgba(74, 146, 122, 0.1) 0%, transparent 60%);
+            #f7fafc 0%, 
+            #edf2f7 100%),
+        radial-gradient(ellipse at top left, rgba(221, 107, 32, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(44, 122, 123, 0.06) 0%, transparent 60%);
     color: var(--text-color);
     position: relative;
     overflow-x: hidden;
@@ -56,8 +56,8 @@ body::before {
     right: 0;
     bottom: 0;
     background-image: 
-        radial-gradient(circle at 25% 25%, rgba(42, 90, 122, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 75% 75%, rgba(242, 160, 74, 0.07) 0%, transparent 50%);
+        radial-gradient(circle at 25% 25%, rgba(26, 54, 93, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(221, 107, 32, 0.05) 0%, transparent 50%);
     animation: subtle-shift 20s ease-in-out infinite alternate;
     pointer-events: none;
     z-index: 1;
