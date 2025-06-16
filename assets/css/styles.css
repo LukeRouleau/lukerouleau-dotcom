@@ -1,8 +1,8 @@
 :root {
-    --primary-color: #2d5d7b;
-    --secondary-color: #4e937b;
+    --primary-color: #2a5a7a;
+    --secondary-color: #4a927a;
     --accent-color: #d18237;
-    --accent-bright: #f29a45;
+    --accent-bright: #f2a04a;
     --accent-complement: #5e37d1;
     --text-color: #1a2a3a;
     --text-color-lighter: #233547;
@@ -18,7 +18,7 @@
     --nav-underline-gradient: linear-gradient(90deg, var(--accent-color), var(--accent-bright));
     --link-gradient-size: 200% 100%;
     --nav-bg: #2e4a64;
-    --base-font-size: 16px;
+    --base-font-size: 18px;
     --heading-scale: 1.2;
     --spacing-xs: 0.25rem;
     --spacing-sm: 0.5rem;
@@ -28,19 +28,21 @@
 }
 
 body {
-    font-family: 'Merriweather', Georgia, serif;
+    font-family: 'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: var(--base-font-size);
-    font-weight: 300;
-    line-height: 1.55;
+    font-weight: 400;
+    line-height: 1.5;
     margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    background: linear-gradient(to bottom, 
-            var(--background-color) 0%, 
-            var(--bg-color-mid) 65%, 
-            var(--bg-color-deep) 100%);
+    background: 
+        linear-gradient(125deg, 
+            #f6f8fb 0%, 
+            #c5d1e4 100%),
+        radial-gradient(ellipse at top left, rgba(242, 160, 74, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(74, 146, 122, 0.1) 0%, transparent 60%);
     color: var(--text-color);
     position: relative;
     overflow-x: hidden;
@@ -49,18 +51,14 @@ body {
 body::before {
     content: "";
     position: fixed;
-    bottom: -40px;
+    top: 0;
     left: 0;
     right: 0;
-    height: 75vh;
-    background: 
-        radial-gradient(
-            ellipse at 50% 100%, 
-            rgba(74, 133, 185, 0.35) 0%, 
-            rgba(74, 133, 185, 0.15) 50%,
-            rgba(74, 133, 185, 0) 80%
-        );
-    animation: gentle-glow 8s ease-in-out infinite alternate;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(42, 90, 122, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(242, 160, 74, 0.07) 0%, transparent 50%);
+    animation: subtle-shift 20s ease-in-out infinite alternate;
     pointer-events: none;
     z-index: 1;
 }
@@ -68,42 +66,48 @@ body::before {
 body::after {
     content: "";
     position: fixed;
-    bottom: -50px;
+    top: 0;
     left: 0;
     right: 0;
-    height: 80vh;
+    bottom: 0;
     background: 
-        radial-gradient(
-            ellipse at 50% 100%, 
-            rgba(90, 157, 214, 0.28) 0%, 
-            rgba(59, 121, 176, 0.12) 40%,
-            rgba(59, 121, 176, 0) 70%
-        );
-    animation: gentle-pulse 12s ease-in-out infinite alternate-reverse;
+        linear-gradient(45deg, transparent 49%, rgba(255, 255, 255, 0.03) 50%, transparent 51%),
+        linear-gradient(-45deg, transparent 49%, rgba(255, 255, 255, 0.02) 50%, transparent 51%);
+    background-size: 60px 60px;
+    opacity: 0.4;
     pointer-events: none;
     z-index: 1;
 }
 
-@keyframes gentle-glow {
+@keyframes subtle-shift {
     0% {
-        opacity: 0.8;
-        transform: scale(1);
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
     }
     100% {
-        opacity: 1;
-        transform: scale(1.08);
+        transform: translate(-1%, 0.5%) scale(1.02);
+        opacity: 0.8;
     }
 }
 
-@keyframes gentle-pulse {
+@keyframes letter-wave {
     0% {
-        opacity: 0.7;
-        transform: scale(1.04);
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-2px);
     }
     100% {
-        opacity: 0.95;
-        transform: scale(0.97);
+        opacity: 1;
+        transform: translateY(0);
     }
+}
+
+.wave-letter {
+    display: inline-block;
+    animation: letter-wave 0.25s ease-out both;
 }
 
 .background {
@@ -117,11 +121,11 @@ body::after {
 
 .container {
     background-color: var(--container-bg);
-    padding: 26px;
+    padding: 40px;
     border-radius: 8px;
     max-width: 880px;
     width: 100%;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     position: relative;
     z-index: 2;
     overflow: hidden;
@@ -135,9 +139,9 @@ body::after {
     border-radius: 0;
     margin-bottom: var(--spacing-lg);
     margin-top: 0;
-    margin-left: -26px;
-    margin-right: -26px;
-    width: calc(100% + 52px);
+    margin-left: -40px;
+    margin-right: -40px;
+    width: calc(100% + 80px);
     display: block;
     aspect-ratio: 16 / 9;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
@@ -153,6 +157,7 @@ body::after {
 }
 
 h1, h2, h3 {
+    font-family: Georgia, 'Times New Roman', serif;
     color: var(--heading-color);
     font-weight: 600;
     line-height: 1.2;
@@ -160,16 +165,18 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: calc(var(--base-font-size) * 1.7);
-    margin: 0.7em 0 0.4em;
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0.8em 0 0.5em;
 }
 
 h2 {
-    margin-top: 1.5em;
-    margin-bottom: 0.6em;
-    font-size: calc(var(--base-font-size) * 1.35);
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+    font-size: 1.5rem;
+    font-weight: 500;
     position: relative;
-    padding-bottom: 0.3em;
+    padding-bottom: 0.5em;
 }
 
 h2::after {
@@ -186,16 +193,18 @@ h2::after {
 }
 
 h3 {
-    font-size: calc(var(--base-font-size) * 1.2);
-    margin-top: 1.4em;
-    margin-bottom: 0.5em;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 1.6em;
+    margin-bottom: 0.6em;
 }
 
 p {
-    margin-bottom: var(--spacing-md);
+    margin-bottom: 1.2em;
     margin-top: 0;
     color: var(--text-color);
-    line-height: 1.58;
+    line-height: 1.6;
+    font-weight: 400;
 }
 
 a {
@@ -247,16 +256,16 @@ nav {
     margin-bottom: 0;
     padding: 0;
     background-color: var(--nav-bg);
-    margin-left: -26px;
-    margin-right: -26px;
-    margin-top: -26px;
+    margin-left: -40px;
+    margin-right: -40px;
+    margin-top: -40px;
     border-radius: 8px 8px 0 0;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 nav ul {
     list-style: none;
-    padding: 10px 26px;
+    padding: 12px 40px;
     margin: 0;
     display: flex;
     justify-content: space-between;
@@ -282,7 +291,7 @@ nav ul li a {
     font-size: 0.9rem;
     padding: 3px 0;
     display: inline-block;
-    font-weight: 600;
+    font-weight: 500;
     color: #ffffff;
     letter-spacing: 0;
     text-shadow: none;
@@ -332,12 +341,12 @@ nav ul li a:hover::after {
 .resume-link {
     background-color: #132434;
     border-radius: 3px;
-    padding: 3px 7px !important;
+    padding: 4px 10px !important;
     font-family: monospace;
     color: #e0e0e0 !important;
     font-weight: 400 !important;
     letter-spacing: 0 !important;
-    font-size: 0.85rem !important;
+    font-size: 0.8rem !important;
     text-shadow: none !important;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     display: inline-block;
@@ -423,7 +432,7 @@ article ul, article ol {
 
 article li {
     margin-bottom: var(--spacing-xs);
-    font-weight: 300;
+    font-weight: 400;
 }
 
 article a {
@@ -439,7 +448,7 @@ article a:hover {
     color: var(--footer-color);
     margin: 0.3em 0 1.4em;
     font-style: italic;
-    font-weight: 300;
+    font-weight: 400;
 }
 
 .post-list {
@@ -492,7 +501,7 @@ article a:hover {
 
 @media (max-width: 768px) {
     :root {
-        --base-font-size: 15px;
+        --base-font-size: 16px;
     }
     
     .container {
@@ -504,15 +513,18 @@ article a:hover {
     body {
         padding: 12px 10px;
         line-height: 1.5;
+        font-weight: 450;
     }
     
     h1 {
         font-size: calc(var(--base-font-size) * 1.6);
+        font-weight: 450;
         margin: 0.6em 0 0.4em;
     }
     
     h2 {
         font-size: calc(var(--base-font-size) * 1.3);
+        font-weight: 500;
         margin-top: 1.2em;
         margin-bottom: 0.5em;
     }
@@ -562,19 +574,22 @@ article a:hover {
 
 @media (max-width: 480px) {
     :root {
-        --base-font-size: 14px;
+        --base-font-size: 15px;
     }
     
     body {
         padding: 10px 8px;
+        font-weight: 500;
     }
     
     h1 {
         font-size: calc(var(--base-font-size) * 1.5);
+        font-weight: 500;
     }
     
     h2 {
         font-size: calc(var(--base-font-size) * 1.25);
+        font-weight: 550;
         margin-top: 1em;
     }
     
@@ -631,8 +646,7 @@ article a:hover {
     justify-content: center;
     color: var(--primary-color);
     transition: all 0.2s ease;
-    width: 23px;
-    height: 0;
+    padding: 8px;
     border-radius: 50%;    
 }
 
@@ -642,8 +656,8 @@ article a:hover {
 
 .social-links a:hover {
     color: var(--accent-color);
-    transform: translateY(-3px);
-    background-color: rgba(209, 130, 55, 0.1);
+    transform: translateY(-2px);
+    background-color: rgba(209, 130, 55, 0.08);
 }
 
 .social-links svg {
@@ -651,14 +665,25 @@ article a:hover {
     height: 20px;
 }
 
+@media (max-width: 768px) {
+    .social-links {
+        gap: 1.2rem;
+    }
+    
+    .social-links svg {
+        width: 19px;
+        height: 19px;
+    }
+}
+
 @media (max-width: 480px) {
     .social-links {
-        gap: 1rem;
+        gap: 0.8rem;
+        margin: 1.5rem 0;
     }
     
     .social-links a {
-        width: 40px;
-        height: 40px;
+        padding: 6px;
     }
     
     .social-links svg {

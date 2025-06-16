@@ -25,7 +25,7 @@
     <!-- Fonts with display=swap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+
     
     <!-- Styles -->
     <link rel="stylesheet" href="./assets/css/styles.css">
@@ -35,6 +35,8 @@
     <link rel="stylesheet" href="./assets/css/blurry-load.min.css">
     <script src="./assets/js/blurry-load.min.js" defer></script>
     <script src="./assets/js/header.js" defer></script>
+    <script src="./assets/js/info-button.js" defer></script>
+    <script src="./assets/js/title-wave.js" defer></script>
     
     <!-- Additional SEO tags -->
     <meta property="og:title" content="Musings | Luke R.">
@@ -53,7 +55,7 @@
       gtag('config', 'G-6VRZ4KLR5D');
     </script>
 </head>
-<body>
+<body class="musings-page">
     <div class="container">
         <div id="header-placeholder"></div>
         <img class="musings-pic blurry-load" 
@@ -64,7 +66,20 @@
              height="394"
              loading="eager"
              fetchpriority="high">
-        <h1><img src="./assets/imgs/favicon.png" alt="Logo" class="inline-logo" width="32" height="32"> Musings</h1>
+        <div class="header-container">
+            <h1><img src="./assets/imgs/favicon.png" alt="Logo" class="inline-logo" width="32" height="32"> Musings</h1>
+            <div class="info-button-container">
+                <div class="info-button">
+                    <span class="info-icon">i</span>
+                </div>
+            </div>
+            <div class="info-tooltip">
+                <p>
+                    I am not in the business of telling anyone how to live their lives or how to think about the world. Content which feels like "advice" is simply me advising myself.<br><br>
+                    All views expressed here are my own, and not necessarily representative of any of organizations with which I am affiliated.
+                </p>
+            </div>
+        </div>
         
         <div class="content-filter">
             <button class="filter-button active" data-type="all">All</button>
