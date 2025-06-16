@@ -94,16 +94,21 @@ body::after {
     0% {
         opacity: 0;
         transform: translateY(8px);
+        color: var(--heading-color);
     }
     50% {
         opacity: 1;
         transform: translateY(-2px);
+        color: var(--wave-letter-color, var(--accent-color));
     }
     100% {
         opacity: 1;
         transform: translateY(0);
+        color: var(--heading-color);
     }
 }
+
+
 
 .wave-letter {
     display: inline-block;
