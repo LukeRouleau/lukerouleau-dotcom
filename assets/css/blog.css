@@ -291,6 +291,11 @@
     line-height: 1;
 }
 
+/* Active state when tooltip is visible */
+.info-button.active {
+    background-color: var(--accent-color);
+}
+
 .info-icon {
     font-family: serif;
     font-style: italic;
