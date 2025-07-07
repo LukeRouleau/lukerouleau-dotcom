@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', function () {
         infoButton.addEventListener('click', function (event) {
             event.stopPropagation();
             tooltip.classList.toggle('visible');
+            infoButton.classList.toggle('active');
         });
 
         document.addEventListener('click', function (event) {
             if (!tooltip.contains(event.target) && !infoButton.contains(event.target)) {
                 tooltip.classList.remove('visible');
+                infoButton.classList.remove('active');
             }
         });
     }
