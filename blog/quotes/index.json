@@ -1,7 +1,7 @@
 [
     {
         "title": "Lemurian Labs Raises $28 Million For AI Portability Software",
-        "date": "Sep 20, 2025",
+        "date": "Dec 3, 2025",
         "content": "GPU kernels are a faulty abstraction, Dawani said, because they are generally oriented around optimizing the compute pipeline rather than optimizing for memory bandwidth, a common bottleneck in state-of-the-art AI systems. Kernels also do not solve the portability problem, since by default they are hardware- and workload-specific. 'In fact, if you write a good kernel today, it makes your hardware look worse,' he said. 'You're exposing the latency of your system when the job is to hide the latency. If you push a compute pipeline to the limit, you're making memory bandwidth and everything else look worse, because you can't get data in and out fast enough.'",
         "author": "EE Times",
         "authorLink": "https://www.eetimes.com/lemurian-labs-raises-35-million-for-ai-portability-software/"
