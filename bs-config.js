@@ -9,6 +9,7 @@
  */
 module.exports = {
     "port": 2015,
+    "listen": "127.0.0.1",
     "files": ["*.html", "*.css", "*.js", "assets/**/*", "blog/**/*"],
     "server": {
         "baseDir": "./",

@@ -1,272 +1,205 @@
-/* Blog styles for the improved Musings page */
+/* =========================================================================
+   Musings — editorial listing & content styles
+   Inherits the paper / ink / accent system from styles.css
+   ========================================================================= */
 
+/* ------------------------------------------------------------- post card */
 .post-card {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.2rem;
-    border-bottom: 1px solid rgba(26, 42, 58, 0.08);
+    margin-bottom: 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--rule);
 }
 
-.post-card:last-child {
-    border-bottom: none;
-}
+.post-card:last-child { border-bottom: none; }
 
 .post-title {
-    margin-bottom: 0.3rem;
-    font-size: 1.2rem;
+    font-family: var(--serif-display);
+    font-size: 1.35rem;
     font-weight: 500;
-    line-height: 1.3;
+    line-height: 1.2;
+    margin: 0 0 0.4rem;
+    border-bottom: none;        /* override base h2 rule */
+    padding-bottom: 0;
 }
 
 .post-title a {
-    color: var(--heading-color);
-    transition: color 0.2s ease;
+    color: var(--ink);
+    border-bottom: none;
 }
 
-.post-title a:hover {
-    color: var(--accent-color);
-}
+.post-title a:hover { color: var(--accent); }
 
+/* --------------------------------------------------------------- meta row */
 .post-meta {
     display: flex;
-    align-items: center;
-    margin-bottom: 0.6rem;
-    font-size: 0.8rem;
-    color: var(--footer-color);
+    align-items: baseline;
+    gap: 0.7rem;
+    margin-bottom: 0.7rem;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
 }
 
-.post-date {
-    margin-right: 0.7rem;
-    font-weight: 400;
-}
+.post-date { letter-spacing: 0.03em; }
 
 .post-type {
-    display: inline-block;
-    padding: 0.12rem 0.35rem;
-    border-radius: 3px;
-    font-size: 0.7rem;
+    font-size: 0.66rem;
     font-weight: 500;
-    margin-right: 0.4rem;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    padding: 0.1rem 0.5rem;
+    border-radius: 2px;
+    border: 1px solid var(--rule);
+    color: var(--ink-soft);
+    background: transparent;
 }
 
-.post-type-post {
-    background-color: var(--primary-color);
-    color: white;
-}
+.post-type-post    { border-color: rgba(154, 59, 46, 0.4); color: var(--accent); }
+.post-type-quote   { border-color: var(--rule); color: var(--ink-faint); }
+.post-type-thought { border-color: var(--rule); color: var(--ink-soft); }
 
-.post-type-quote {
-    background-color: var(--accent-color);
-    color: white;
-}
-
-.post-type-thought {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.post-excerpt {
-    margin-bottom: 0.6rem;
-    line-height: 1.4;
-    font-weight: 400;
-}
+/* ---------------------------------------------------------------- excerpt */
+.post-excerpt { margin-bottom: 0.7rem; }
 
 .post-excerpt p {
     font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 400;
-    color: var(--text-color-lighter);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-bottom: 0.5em;
 }
 
 .read-more {
+    font-size: 0.82rem;
     font-weight: 500;
-    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    border-bottom: none;
 }
+.read-more:hover { color: var(--accent-deep); }
 
-/* Content filter */
+/* ---------------------------------------------------------- content filter */
 .content-filter {
     display: flex;
-    margin-bottom: 1.5rem;
-    gap: 0.3rem;
+    gap: 1.4rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--rule);
 }
 
 .filter-button {
-    padding: 0.2rem 0.6rem;
-    border-radius: 3px;
-    background-color: var(--bg-color-mid);
-    color: var(--text-color);
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-    cursor: pointer;
+    background: none;
     border: none;
+    padding: 0 0 3px;
+    cursor: pointer;
+    font-family: var(--serif-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
-.filter-button:hover {
-    background-color: var(--bg-color-deep);
-}
+.filter-button:hover { color: var(--ink); }
 
 .filter-button.active {
-    background-color: var(--primary-color);
-    color: white;
+    color: var(--ink);
+    border-bottom-color: var(--accent);
 }
 
-/* Quote styling */
+/* --------------------------------------------------------------- quotes */
 .quote-content {
     font-style: italic;
     position: relative;
-    padding-left: 1.2rem;
-    margin-bottom: 0.4rem;
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 400;
-    color: var(--text-color-lighter);
+    padding-left: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ink-soft);
 }
 
 .quote-content::before {
     content: "\201C";
     position: absolute;
-    left: 0;
-    top: -0.2rem;
-    font-size: 1.5rem;
-    color: var(--accent-color);
+    left: -0.1rem;
+    top: 0.15rem;
+    font-family: var(--serif-display);
+    font-size: 2rem;
     line-height: 1;
-    opacity: 0.8;
+    color: var(--accent);
+    opacity: 0.6;
 }
 
 .quote-attribution {
     text-align: right;
-    font-size: 0.8rem;
-    color: var(--footer-color);
-    font-weight: 500;
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-style: normal;
 }
 
-.quote-attribution a {
-    color: var(--accent-color);
-    text-decoration: none;
-}
+.quote-attribution a { color: var(--accent); border-bottom: none; }
+.quote-attribution a:hover { border-bottom: 1px solid var(--accent); }
 
-.quote-attribution a:hover {
-    text-decoration: underline;
-}
-
-/* Thought styling */
+/* -------------------------------------------------------------- thoughts */
 .thought-content {
-    font-size: 1rem;
-    line-height: 1.5;
-    font-weight: 400;
-    color: var(--text-color-lighter);
+    font-size: 1.05rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
 }
 
-/* Year separator for all posts view */
+/* --------------------------------------------------------- year separator */
 .year-separator {
-    margin: 1.8rem 0 1rem 0;
-    padding: 0.2rem 0;
-    background-color: var(--bg-color-mid);
-    border-radius: 3px;
-    text-align: center;
-    width: 100%;
-    box-shadow: none;
+    margin: 2.5rem 0 1.25rem;
+    padding: 0;
+    text-align: left;
+    background: none;
     border: none;
 }
 
 .year-separator h2 {
-    font-size: 1.2rem;
-    color: var(--primary-color);
+    font-family: var(--serif-display);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    color: var(--ink-faint);
     margin: 0;
     padding: 0;
-    font-weight: 600;
     border: none;
-    border-bottom: none;
-    text-decoration: none;
-    box-shadow: none;
-    background-image: none;
-    position: relative;
+    display: inline-block;
 }
 
 .year-separator h2::after,
-.year-separator h2::before {
-    display: none;
-    content: none;
+.year-separator h2::before { display: none; content: none; }
+
+.year-separator + .post-card { margin-top: 0.5rem; }
+
+.loading-indicator,
+.error-message {
+    color: var(--ink-faint);
+    font-style: italic;
+    padding: 1rem 0;
 }
 
-/* Add extra margin to first post of each year */
-.year-separator + .post-card {
-    margin-top: 0.7rem;
-}
-
-@media (max-width: 768px) {
-    .post-title {
-        font-size: 1.1rem;
-    }
-    
-    .post-excerpt {
-        line-height: 1.4;
-    }
-    
-    .post-excerpt p,
-    .quote-content, 
-    .thought-content {
-        font-size: 0.95rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .post-title {
-        font-size: 1.05rem;
-    }
-    
-    .post-type {
-        padding: 0.1rem 0.3rem;
-        font-size: 0.65rem;
-    }
-    
-    .post-excerpt p,
-    .quote-content, 
-    .thought-content {
-        font-size: 0.9rem;
-    }
-}
-
-/* Header container that holds the page title and info button */
+/* ----------------------------------------------- header + info button */
 .header-container {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 1.2rem;
+    margin-bottom: 0.6em;
     position: relative;
 }
 
 .header-container h1 {
-    margin: 0;
-    position: relative;
-    transition: background-color 0.2s, transform 0.2s;
+    margin: 0.4em 0;
     border: none;
-    z-index: 11;
-    cursor: pointer;
 }
 
-/* Refine info button container inside the header */
 .info-button-container {
     display: flex;
     align-items: center;
     margin-left: auto;
 }
 
-/* Remove fixed positioning overrides from media queries */
-@media (max-width: 768px) {
-    .info-button-container {
-        /* No top/right positioning; stays inline */
-    }
-}
-
-@media (max-width: 480px) {
-    .info-button-container {
-        /* No top/right positioning; stays inline */
-    }
-}
-
-/* Info button styles */
 .info-button {
     display: inline-flex;
     align-items: center;
@@ -274,21 +207,18 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 14px;
-    font-weight: bold;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink-soft);
+    font-size: 13px;
     cursor: pointer;
-    position: relative;
-    transition: background-color 0.2s, transform 0.2s;
-    border: none;
+    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .info-button:hover {
-    background-color: var(--accent-color);
-    transform: scale(1.1);
-    font-style: italic;
-    line-height: 1;
+    color: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.08);
 }
 
 /* Active state when tooltip is visible */
@@ -297,7 +227,7 @@
 }
 
 .info-icon {
-    font-family: serif;
+    font-family: var(--serif-display);
     font-style: italic;
     line-height: 1;
 }
@@ -308,14 +238,13 @@
     right: 0;
     transform: translateY(-5px);
     min-width: 280px;
-    width: auto;
     max-width: 400px;
     padding: 16px 20px;
-    background-color: var(--bg-color-deep);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    color: var(--text-color);
+    background-color: var(--paper-deep);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: 0 8px 28px rgba(33, 29, 24, 0.12);
+    color: var(--ink-soft);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
@@ -336,55 +265,44 @@
     position: absolute;
     top: -6px;
     right: 6px;
-    left: auto;
-    transform: none;
     border-width: 6px;
     border-style: solid;
-    border-color: transparent transparent var(--bg-color-deep) transparent;
+    border-color: transparent transparent var(--paper-deep) transparent;
 }
 
-.info-button:hover .info-tooltip,
-.info-button:focus .info-tooltip {
-    opacity: 0; /* Remove hover effect */
-}
+.info-tooltip::before { display: none; }
 
 .info-tooltip p {
     margin: 0;
-    font-size: 0.9rem;
-    line-height: 1.4;
-    color: var(--text-color-lighter);
-    font-weight: 400;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
 }
 
-/* Remove old styles */
-.info-tooltip::before {
-    display: none;
-}
+.musings-page .container { overflow: visible; }
 
+/* ------------------------------------------------------------ responsive */
 @media (max-width: 768px) {
-    .info-tooltip {
-        max-width: 350px;
-        font-size: 0.85rem;
-    }
-    .info-tooltip::after {
-        right: 5px; /* Align arrow for 22px button */
-    }
+    .post-title { font-size: 1.25rem; }
+    .post-excerpt p,
+    .quote-content,
+    .thought-content { font-size: 0.98rem; }
+
+    .info-tooltip { max-width: 340px; font-size: 0.85rem; }
 }
 
 @media (max-width: 480px) {
+    .post-title { font-size: 1.18rem; }
+    .content-filter { gap: 1rem; }
+    .filter-button { font-size: 0.7rem; letter-spacing: 0.1em; }
+    .post-excerpt p,
+    .quote-content,
+    .thought-content { font-size: 0.95rem; }
+
     .info-tooltip {
-        left: 5px;
-        right: 5px;
-        width: auto;
+        left: 0; right: 0;
         min-width: 0;
         transform: translateY(0);
     }
-
-    .info-tooltip::after {
-        right: 4px; /* Align arrow for 20px button */
-    }
+    .info-tooltip::after { right: 5px; }
 }
-
-.musings-page .container {
-    overflow: visible;
-} 
