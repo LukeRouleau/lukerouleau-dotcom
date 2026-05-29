@@ -74,7 +74,7 @@
         </figure>
         <p class="eyebrow">Engineer · Founder</p>
         <h1>I'm Luke, nice to meet you.</h1>
-        <p class="lead">I am an engineer, focusing on AI models and infra, and a health-tech founder. I enjoy travel, aggressive CrossFit training, pondering consciousness, and day-dreaming about the future with people who want to build it.</p>
+        <p class="lead">I focus on AI models, infra, and tooling — and my side projects have made me a proficient systems architect and full-stack developer along the way. I enjoy travel, fitness, music, and dreaming about the future with those who want to build it.</p>
 
         <div class="social-links">
             <a href="https://linkedin.com/in/luke-rouleau/" target="_blank" rel="noopener" aria-label="LinkedIn">
@@ -109,20 +109,72 @@
             </a>
         </div>
 
-        <h2>Present</h2>
-        <p>I am working on building universally portable compute at <a href="https://www.lemurianlabs.com" target="_blank" rel="noopener">Lemurian Labs</a>.</p>
-        <p>Also, I am a founder and CTO of <a href="https://www.recodemedical.com" target="_blank" rel="noopener">ReCODE Medical</a>, a comprehensive revenue cycle management solution for medical procedures from prior authorization to charge capture.</p>
-        <p>My current research focuses are robotic foundation models and AI-powered medical coding.</p>
+        <!-- ============================================================
+             THE LEDGER — Present / Past as a printed index, set as one
+             reverse-chronological column (now → origin). Years live in the
+             margin; <time datetime> carries the start year for machines.
+             ============================================================ -->
+        <section class="ledger" aria-labelledby="present-title">
+            <h2 id="present-title">Present</h2>
+            <ol class="ledger-list">
+                <li class="entry entry--now">
+                    <p class="entry-date"><time datetime="2026-02">2026</time><span class="entry-tag">Now</span></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://ai.meta.com/blog/meta-mtia-scale-ai-chips-for-billions/" target="_blank" rel="noopener">Meta · MTIA</a></h3>
+                        <p class="entry-role">On the MTIA team, working on their Triton MLIR compiler for custom AI-accelerator silicon.</p>
+                    </div>
+                </li>
+                <li class="entry entry--now">
+                    <p class="entry-date"><time datetime="2024-09">2024</time><span class="entry-tag">Now</span></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://recodemedical.com" target="_blank" rel="noopener">ReCODE Medical</a></h3>
+                        <p class="entry-role">Co-founded an AI medical-coding company, <a href="./blog/recode-acquired">recently acquired</a>.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
 
-        <h2>Past</h2>
-        <p>I graduated <a href="https://commencement.ufl.edu/media/commencementufledu/past-commencement-pdf/Spring-B-M-S-22.pdf" target="_blank" rel="noopener">Summa Cum Laude</a> from the University of Florida with a B.S. in Computer Engineering. 
-            There, I received the <a href="https://www.ece.ufl.edu/people/student-awards/" target="_blank" rel="noopener">ECE Dept. Outstanding Student Award</a>.</p>
-        <p>I was the first employee at <a href="https://www.metalware.io" target="_blank" rel="noopener">Metalware</a> (YC S23), where I fell in love with startups (thanks Ryan) and learned what good code is (thanks Andrew).</p>
-        <p>I worked in <a href="https://www.ti.com" target="_blank" rel="noopener">Texas Instrument's</a> Machine Learning Lab, where we brought a TVM compiler to a novel RISCV + ML Accelerator Processor.</p>
-        <p>I was a Senior Deep Learning Engineer at <a href="https://www.untether.ai" target="_blank" rel="noopener">Untether AI</a> (acquired by <a href="https://www.amd.com/" target="_blank" rel="noopener">AMD</a>).
-            I focused on Torch/ONNX model ingestion, optimization, and <a href="https://www.businesswire.com/news/home/20250310953294/en/Untether-AI-Dramatically-Expands-AI-Model-Support-and-Speeds-Developer-Velocity-with-New-Generative-Compiler-Technology" target="_blank" rel="noopener">MLIR compilation</a> for Untether's spatial architecture. 
-            I also developed the large-scale compiler testing framework by extending <a href="https://github.com/onnx/turnkeyml" target="_blank" rel="noopener">TurnkeyML</a>, which served as the backbone of Untether's CI/CD pipeline.</p>
-        
+        <section class="ledger" aria-labelledby="past-title">
+            <h2 id="past-title">Past</h2>
+            <ol class="ledger-list">
+                <li class="entry">
+                    <p class="entry-date"><time datetime="2025-07">2025&#8211;26</time></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://www.lemurianlabs.com" target="_blank" rel="noopener">Lemurian Labs</a></h3>
+                        <p class="entry-role">Worked on the dataflow optimizing compiler for AMD MI300.</p>
+                    </div>
+                </li>
+                <li class="entry">
+                    <p class="entry-date"><time datetime="2024-05">2024&#8211;25</time></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://www.untether.ai" target="_blank" rel="noopener">Untether AI</a></h3>
+                        <p class="entry-role">Senior Deep Learning Engineer (acquired by <a href="https://www.amd.com/" target="_blank" rel="noopener">AMD</a>). Led Torch/ONNX model ingestion, graph optimization, and <a href="https://www.businesswire.com/news/home/20250310953294/en/Untether-AI-Dramatically-Expands-AI-Model-Support-and-Speeds-Developer-Velocity-with-New-Generative-Compiler-Technology" target="_blank" rel="noopener">MLIR compilation</a> for Untether's spatial architecture. Also, built the large-scale compiler testing framework atop <a href="https://github.com/onnx/turnkeyml" target="_blank" rel="noopener">TurnkeyML</a> — the backbone of its CI/CD pipeline.</p>
+                    </div>
+                </li>
+                <li class="entry">
+                    <p class="entry-date"><time datetime="2023-12">2023&#8211;24</time></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://www.metalware.com/" target="_blank" rel="noopener">Metalware · YC S23</a></h3>
+                        <p class="entry-role">First employee, where I fell in love with startups (thanks Ryan) and learned what good code is (thanks Andrew).</p>
+                    </div>
+                </li>
+                <li class="entry">
+                    <p class="entry-date"><time datetime="2022-05">2022&#8211;24</time></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org"><a href="https://www.ti.com" target="_blank" rel="noopener">Texas Instruments · ML Lab</a></h3>
+                        <p class="entry-role">Brought a TVM compiler to a novel RISC-V + ML accelerator processor.</p>
+                    </div>
+                </li>
+                <li class="entry">
+                    <p class="entry-date"><time datetime="2022-05">2022</time></p>
+                    <div class="entry-body">
+                        <h3 class="entry-org">University of Florida</h3>
+                        <p class="entry-role">Graduated <a href="https://commencement.ufl.edu/media/commencementufledu/past-commencement-pdf/Spring-B-M-S-22.pdf" target="_blank" rel="noopener">Summa Cum Laude</a> with a B.S. in Computer Engineering, and received the <a href="https://www.ece.ufl.edu/people/student-awards/" target="_blank" rel="noopener">ECE Dept. Outstanding Student Award</a>.</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
         <footer class="footer">
             © 2026 Luke Rouleau. All rights reserved.
         </footer>

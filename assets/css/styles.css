@@ -117,6 +117,8 @@ body {
 /* Home masthead — last so they win the specificity tie with nth-of-type above */
 .container > p.eyebrow           { animation-delay: 0.12s; }
 .container > p.lead              { animation-delay: 0.24s; }
+.container > .ledger:nth-of-type(1) { animation-delay: 0.36s; }
+.container > .ledger:nth-of-type(2) { animation-delay: 0.42s; }
 
 @media (prefers-reduced-motion: reduce) {
     .container > * { animation: none; }
@@ -252,7 +254,7 @@ nav ul li a.active {
 /* Lead photo as a figure — the image carries a small italic dateline,
    like the opening plate of a printed profile. */
 .lead-figure {
-    margin: 0.5rem 0 var(--space-lg);
+    margin: 0.5rem 0 3.2rem;
 }
 .lead-figure .profile-pic {
     margin: 0;
@@ -314,8 +316,10 @@ nav ul li a.active {
     background: var(--accent);
 }
 
-/* Drop cap on the intro — the essayist's opening flourish. */
-.home .lead::first-letter {
+/* Drop cap — the essayist's opening flourish, on the home intro and the
+   opening paragraph of every essay (the first <p> of the article body). */
+.home .lead::first-letter,
+article > p:first-of-type::first-letter {
     float: left;
     font-family: var(--serif-display);
     font-weight: 500;
@@ -402,7 +406,7 @@ em { font-style: italic; }
 .social-links {
     display: flex;
     gap: 1.6rem;
-    margin: 2rem 0 2.5rem;
+    margin: 2rem 0 3.7rem;
 }
 
 .social-links a {
@@ -418,6 +422,120 @@ em { font-style: italic; }
 }
 
 .social-links svg { width: 20px; height: 20px; }
+
+/* ============================================================== the ledger
+   Present / Past set as the index of a printed book: a marginal dateline
+   in old-style figures, the organization as a Fraunces anchor, the role in
+   body serif. Hairlines part the rows; a small oxblood tick marks what's
+   still live. One continuous reverse-chronological column, now → origin. */
+.ledger { margin: 0; }
+
+.ledger-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.entry {
+    display: grid;
+    grid-template-columns: 4.75rem 1fr;
+    column-gap: 1.75rem;
+    align-items: start;
+    padding: 0.8rem 0;
+    border-top: 1px solid var(--rule-soft);
+}
+/* First row sits flush under the h2's hairline — no double rule. */
+.entry:first-child { border-top: none; padding-top: 0.25rem; }
+
+/* Marginal dateline — old-style numerals, quiet ink, nudged down a hair so
+   the figures optically meet the cap-line of the organization beside them. */
+.entry-date {
+    margin: 0;
+    padding-top: 0.18em;
+    font-family: var(--serif-body);
+    font-size: 0.9rem;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    letter-spacing: 0.005em;
+    color: var(--ink-faint);
+    line-height: 1.3;
+    white-space: nowrap;
+}
+/* "Now" — the single live note, italic oxblood beneath the start year. */
+.entry-tag {
+    display: block;
+    margin-top: 0.06rem;
+    font-style: italic;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    color: var(--accent);
+}
+
+/* Organization anchor — display serif, the thing the eye lands on. */
+.entry-org {
+    margin: 0 0 0.22rem;
+    font-family: var(--serif-display);
+    font-size: 1.12rem;
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.004em;
+}
+/* Link sits in ink, not accent — an underline grows from the left on hover
+   so the row stays calm until touched (the role's links carry the oxblood). */
+.entry-org a {
+    color: var(--ink);
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 1.08em;
+    background-size: 0% 1px;
+    transition: color 0.2s ease, background-size 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.entry-org a:hover {
+    color: var(--accent);
+    background-size: 100% 1px;
+}
+
+/* A small oxblood tick at the cap-line marks a current role. */
+.entry--now .entry-org { position: relative; }
+.entry--now .entry-org::before {
+    content: "";
+    position: absolute;
+    left: -0.95rem;
+    top: 0.6em;
+    width: 0.36rem;
+    height: 0.36rem;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.entry-role {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+    line-height: 1.58;
+}
+.entry-role a {
+    text-decoration-color: color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+/* Phones: fold the dateline into a small label above the entry. */
+@media (max-width: 540px) {
+    .entry {
+        grid-template-columns: 1fr;
+        row-gap: 0.25rem;
+        padding: 0.78rem 0;
+    }
+    .entry:first-child { padding-top: 0.25rem; }
+    .entry-date {
+        padding-top: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 0.55rem;
+        font-size: 0.82rem;
+    }
+    .entry-tag { display: inline; margin-top: 0; }
+    .entry--now .entry-org::before { display: none; }
+}
 
 /* --------------------------------------------------------------- article */
 article { margin: var(--space-md) 0; }
