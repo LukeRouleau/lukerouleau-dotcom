@@ -221,9 +221,11 @@
     transform: scale(1.08);
 }
 
-/* Active state when tooltip is visible */
+/* Active state when tooltip is open (set by info-button.js) */
 .info-button.active {
-    background-color: var(--accent-color);
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
 }
 
 .info-icon {
