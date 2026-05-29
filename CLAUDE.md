@@ -30,4 +30,4 @@ Three blog content types, each driven by a JSON index file that the musings page
 - `blog/quotes/index.json` → quotes (content lives inline in the JSON)
 - `blog/thoughts/index.json` → thoughts (content lives inline in the JSON)
 
-`musings.html` is the listing page that filters/renders across all three. When adding a new post, both the HTML file *and* the `index.json` entry are required — `./create_post.sh` (needs `jq`) handles both.
+`musings.html` is the listing page that filters/renders across all three. When adding a new post, both the HTML file *and* the `index.json` entry are required. Use the **`add-content`** skill (`.claude/skills/add-content/`) to publish any essay, quote, or thought — it documents the exact files and fields for each type.
