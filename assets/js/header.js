@@ -79,8 +79,31 @@ document.addEventListener("DOMContentLoaded", function() {
             } else if (!isInBlogDir) {
                 document.getElementById('nav-home').classList.add('active');
             }
+
+            // Dark-mode toggle. The active theme was already resolved before
+            // paint by the inline <head> script; here we just flip + persist it.
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function () {
+                    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    const current = document.documentElement.getAttribute('data-theme')
+                        || (prefersDark ? 'dark' : 'light');
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    try { localStorage.setItem('theme', next); } catch (e) {}
+                });
+            }
         })
         .catch(error => {
             console.error('Error loading header:', error);
         });
-}); 
+});
+
+// Follow the OS theme live, but only until the visitor makes an explicit choice.
+try {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        if (!localStorage.getItem('theme')) {
+            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+    });
+} catch (e) {}

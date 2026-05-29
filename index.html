@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luke Rouleau's Website</title>
     <meta name="description" content="Personal website and blog of Luke Rouleau">
-    
+
+    <!-- Resolve theme before first paint (saved choice, else OS) — no flash -->
+    <script src="./assets/js/theme-init.js"></script>
+
     <!-- Preload critical resources -->
     <link rel="preload" href="./assets/imgs/favicon.png" as="image">
     <link rel="preload" href="./assets/imgs/profile-min.png" as="image">
@@ -78,16 +81,20 @@
     <div class="container">
         <div id="header-placeholder"></div>
 
-        <img class="profile-pic blurry-load" 
-             src="./assets/imgs/profile-min.png"
-             data-large="./assets/imgs/profile.jpg"
-             alt="A Profile Picture" 
-             width="700" 
-             height="394"
-             loading="eager"
-             fetchpriority="high">
+        <figure class="lead-figure">
+            <img class="profile-pic blurry-load"
+                 src="./assets/imgs/profile-min.png"
+                 data-large="./assets/imgs/profile.jpg"
+                 alt="Luke Rouleau on the Salar de Uyuni salt flats in Bolivia"
+                 width="700"
+                 height="394"
+                 loading="eager"
+                 fetchpriority="high">
+            <figcaption>Salar de Uyuni · Bolivia</figcaption>
+        </figure>
+        <p class="eyebrow">Engineer · Founder</p>
         <h1>I'm Luke, nice to meet you.</h1>
-        <p>I am an engineer, focusing on AI models and infra, and a health-tech founder. I enjoy travel, aggressive CrossFit training, pondering consciousness, and day-dreaming about the future with people who want to build it. I am <a href="https://www.16personalities.com/entj-personality" target="_blank" rel="noopener">ENTJ</a>, according to <a href="https://en.wikipedia.org/wiki/Myers–Briggs_Type_Indicator" target="_blank" rel="noopener">MBTI</a> tests.</p>
+        <p class="lead">I am an engineer, focusing on AI models and infra, and a health-tech founder. I enjoy travel, aggressive CrossFit training, pondering consciousness, and day-dreaming about the future with people who want to build it. I am <a href="https://www.16personalities.com/entj-personality" target="_blank" rel="noopener">ENTJ</a>, according to <a href="https://en.wikipedia.org/wiki/Myers–Briggs_Type_Indicator" target="_blank" rel="noopener">MBTI</a> tests.</p>
         <p>I love to invest in great founders and entrepreneurs. If you are starting a company, raising a round, or thinking about acquiring a company ETA-style, I'd love to chat.</p>
         
         <div class="social-links">
@@ -138,7 +145,7 @@
             I also developed the large-scale compiler testing framework by extending <a href="https://github.com/onnx/turnkeyml" target="_blank" rel="noopener">TurnkeyML</a>, which served as the backbone of Untether's CI/CD pipeline.</p>
         
         <footer class="footer">
-            © 2025 Luke Rouleau. All rights reserved.
+            © 2026 Luke Rouleau. All rights reserved.
         </footer>
     </div>
     <script>
