@@ -1,42 +1,315 @@
 /* =========================================================================
-   Musings — editorial listing & content styles
-   Inherits the paper / ink / accent system from styles.css
+   Musings — editorial archive
+   Three forms, three voices: an essay index, a commonplace book of quotes,
+   and numbered thoughts. Inherits the paper / ink / accent system from
+   styles.css; everything is driven by the theme variables (light + dark).
    ========================================================================= */
 
-/* ------------------------------------------------------------- post card */
-.post-card {
-    margin-bottom: 2rem;
-    padding-bottom: 1.75rem;
+/* ---------------------------------------------------------------- standfirst */
+.standfirst {
+    font-style: italic;
+    font-size: 1.08rem;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 0 1.8rem;
+    max-width: 38rem;
+}
+
+/* ----------------------------------------------------------- archive jump nav */
+.archive-nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.7rem;
+    margin: 0 0 2.6rem;
+    padding: 0.85rem 0;
+    background: var(--paper);
     border-bottom: 1px solid var(--rule);
 }
 
-.post-card:last-child { border-bottom: none; }
+.archive-nav a {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    padding-bottom: 0.15rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
 
-.post-title {
+.archive-nav a:hover { color: var(--ink); }
+.archive-nav a.active { color: var(--ink); border-bottom-color: var(--accent); }
+
+.archive-nav .count {
+    font-size: 0.66rem;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    font-variant-numeric: oldstyle-nums;
+}
+
+/* ------------------------------------------------------------ archive section */
+.archive-section {
+    margin: 0 0 3.6rem;
+    scroll-margin-top: 4.75rem;   /* clear the sticky jump nav on anchor jumps */
+}
+.archive-section:last-child { margin-bottom: 0; }
+
+.section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin: 0 0 1.5rem;
+}
+
+.section-head h2 {
     font-family: var(--serif-display);
-    font-size: 1.35rem;
-    font-weight: 500;
-    line-height: 1.2;
-    margin: 0 0 0.4rem;
-    border-bottom: none;        /* override base h2 rule */
-    padding-bottom: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+    padding: 0;
+    border: none;
+    white-space: nowrap;
 }
 
-.post-title a {
+.section-head .rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--rule);
+}
+
+.section-head .count {
+    flex: none;
+    font-size: 0.78rem;
+    color: var(--ink-faint);
+    font-variant-numeric: oldstyle-nums;
+}
+
+/* ------------------------------------------------------------- essay index */
+.essay-year {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    margin: 1.7rem 0 0.4rem;
+}
+.essay-index > .essay-year:first-child { margin-top: 0; }
+
+.essay-item { border-bottom: 1px solid var(--rule-soft); }
+.essay-item:last-child { border-bottom: none; }
+
+.essay-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    padding: 0.5rem 0;
+    text-decoration: none;
     color: var(--ink);
-    border-bottom: none;
 }
 
-.post-title a:hover { color: var(--accent); }
+.essay-title {
+    font-family: var(--serif-display);
+    font-size: 1.12rem;
+    font-weight: 500;
+    line-height: 1.25;
+    transition: color 0.2s ease;
+}
 
-/* --------------------------------------------------------------- meta row */
+.essay-row:hover .essay-title,
+.essay-row:focus-visible .essay-title { color: var(--accent); }
+
+.essay-leader {
+    flex: 1 1 auto;
+    min-width: 1.5rem;
+    border-bottom: 1px dotted var(--rule);
+    transform: translateY(-0.3em);
+}
+
+.essay-date {
+    flex: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    font-variant-numeric: oldstyle-nums;
+    white-space: nowrap;
+}
+
+/* Excerpt unrolls on hover/focus — a peek without leaving the index. */
+.essay-excerpt {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    margin: 0;
+    transition: grid-template-rows 0.35s ease, opacity 0.3s ease;
+}
+.essay-excerpt > span {
+    overflow: hidden;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+}
+.essay-item:hover .essay-excerpt,
+.essay-item:focus-within .essay-excerpt {
+    grid-template-rows: 1fr;
+    opacity: 1;
+}
+.essay-item:hover .essay-excerpt > span,
+.essay-item:focus-within .essay-excerpt > span { padding-bottom: 0.65rem; }
+
+/* ---------------------------------------------------- commonplace (quotes) */
+.quote-entry {
+    margin: 0 0 2.6rem;
+}
+.quote-entry:last-child { margin-bottom: 0; }
+
+.quote-source {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.7rem;
+}
+
+.quote-body {
+    position: relative;
+    margin: 0 0 0.75rem;
+    padding-left: 1.6rem;
+    font-style: italic;
+    font-size: 1.12rem;
+    line-height: 1.55;
+    color: var(--ink);
+}
+
+.quote-body::before {
+    content: "\201C";
+    position: absolute;
+    left: -0.3rem;
+    top: -0.3rem;
+    font-family: var(--serif-display);
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--accent);
+    opacity: 0.5;
+}
+
+.quote-cite {
+    padding-left: 1.6rem;
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+}
+.quote-cite a { color: var(--accent); }
+.quote-date {
+    margin-left: 0.7rem;
+    font-variant-numeric: oldstyle-nums;
+}
+
+/* -------------------------------------------------- numbered thoughts */
+.thought-entry {
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    gap: 0.2rem 1.1rem;
+    padding: 0 0 2.1rem;
+}
+.thought-entry:last-child { padding-bottom: 0; }
+
+.thought-num {
+    font-family: var(--serif-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.45;
+    color: var(--accent);
+    text-align: right;
+    user-select: none;
+}
+
+.thought-title {
+    font-family: var(--serif-display);
+    font-size: 1.12rem;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 0 0.35rem;
+    color: var(--ink);
+}
+
+.thought-text {
+    margin: 0 0 0.5rem;
+    font-size: 1rem;
+    line-height: 1.62;
+    color: var(--ink-soft);
+}
+
+.thought-date {
+    font-size: 0.74rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    font-variant-numeric: oldstyle-nums;
+}
+
+/* ----------------------------------------------------------- show more */
+.show-more {
+    display: inline-block;
+    margin-top: 1.4rem;
+    padding: 0.4rem 1rem;
+    background: none;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--serif-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.show-more:hover { color: var(--accent); border-color: var(--accent); }
+
+.is-hidden { display: none; }
+
+/* ------------------------------------------------ injected-content reveal */
+#blog-container .archive-nav,
+#blog-container .archive-section {
+    animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+#blog-container .archive-section:nth-of-type(1) { animation-delay: 0.06s; }
+#blog-container .archive-section:nth-of-type(2) { animation-delay: 0.12s; }
+#blog-container .archive-section:nth-of-type(3) { animation-delay: 0.18s; }
+
+@media (prefers-reduced-motion: reduce) {
+    #blog-container .archive-nav,
+    #blog-container .archive-section { animation: none; }
+}
+
+/* ---------------------------------------------------------- loading / error */
+.loading-indicator,
+.error-message {
+    color: var(--ink-faint);
+    font-style: italic;
+    padding: 1rem 0;
+}
+
+/* =========================================================================
+   Shared with individual post pages (post-meta row + type badge)
+   ========================================================================= */
 .post-meta {
     display: flex;
     align-items: baseline;
     gap: 0.7rem;
-    margin-bottom: 0.7rem;
-    font-size: 0.78rem;
+    margin: 0 0 2em;
+    font-size: 0.8rem;
     color: var(--ink-faint);
+    letter-spacing: 0.03em;
 }
 
 .post-date { letter-spacing: 0.03em; }
@@ -57,136 +330,19 @@
 .post-type-quote   { border-color: var(--rule); color: var(--ink-faint); }
 .post-type-thought { border-color: var(--rule); color: var(--ink-soft); }
 
-/* ---------------------------------------------------------------- excerpt */
-.post-excerpt { margin-bottom: 0.7rem; }
-
-.post-excerpt p {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--ink-soft);
-    margin-bottom: 0.5em;
-}
-
-.read-more {
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: var(--accent);
-    border-bottom: none;
-}
-.read-more:hover { color: var(--accent-deep); }
-
-/* ---------------------------------------------------------- content filter */
-.content-filter {
-    display: flex;
-    gap: 1.4rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--rule);
-}
-
-.filter-button {
-    background: none;
-    border: none;
-    padding: 0 0 3px;
-    cursor: pointer;
-    font-family: var(--serif-body);
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    border-bottom: 1px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
-}
-
-.filter-button:hover { color: var(--ink); }
-
-.filter-button.active {
-    color: var(--ink);
-    border-bottom-color: var(--accent);
-}
-
-/* --------------------------------------------------------------- quotes */
-.quote-content {
-    font-style: italic;
-    position: relative;
-    padding-left: 1.4rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: var(--ink-soft);
-}
-
-.quote-content::before {
-    content: "\201C";
-    position: absolute;
-    left: -0.1rem;
-    top: 0.15rem;
-    font-family: var(--serif-display);
-    font-size: 2rem;
-    line-height: 1;
-    color: var(--accent);
-    opacity: 0.6;
-}
-
-.quote-attribution {
-    text-align: right;
-    font-size: 0.82rem;
-    color: var(--ink-faint);
-    font-style: normal;
-}
-
-.quote-attribution a { color: var(--accent); border-bottom: none; }
-.quote-attribution a:hover { border-bottom: 1px solid var(--accent); }
-
-/* -------------------------------------------------------------- thoughts */
-.thought-content {
-    font-size: 1.05rem;
-    line-height: 1.65;
-    color: var(--ink-soft);
-}
-
-/* --------------------------------------------------------- year separator */
-.year-separator {
-    margin: 2.5rem 0 1.25rem;
-    padding: 0;
-    text-align: left;
-    background: none;
-    border: none;
-}
-
-.year-separator h2 {
-    font-family: var(--serif-display);
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.22em;
-    color: var(--ink-faint);
-    margin: 0;
-    padding: 0;
-    border: none;
-    display: inline-block;
-}
-
-.year-separator h2::after,
-.year-separator h2::before { display: none; content: none; }
-
-.year-separator + .post-card { margin-top: 0.5rem; }
-
-.loading-indicator,
-.error-message {
-    color: var(--ink-faint);
-    font-style: italic;
-    padding: 1rem 0;
-}
-
 /* ----------------------------------------------- header + info button */
 .header-container {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 0.6em;
+    margin-bottom: 0.4em;
     position: relative;
+    /* Lift this whole stacking context above later siblings (standfirst, the
+       sticky nav) so the open tooltip isn't painted under them. The page-load
+       `rise` animation leaves a transform on every .container child, making
+       each its own stacking context — without this the tooltip's z-index is
+       trapped inside .header-container. */
+    z-index: 30;
 }
 
 .header-container h1 {
@@ -243,10 +399,10 @@
     max-width: 400px;
     padding: 16px 20px;
     background-color: var(--paper-deep);
-    border: 1px solid var(--rule);
+    border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent);
     border-radius: 4px;
-    box-shadow: 0 8px 28px rgba(33, 29, 24, 0.12);
-    color: var(--ink-soft);
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.26), 0 2px 8px rgba(0, 0, 0, 0.14);
+    color: var(--ink);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
@@ -272,35 +428,31 @@
     border-color: transparent transparent var(--paper-deep) transparent;
 }
 
-.info-tooltip::before { display: none; }
-
 .info-tooltip p {
     margin: 0;
     font-size: 0.88rem;
     line-height: 1.55;
-    color: var(--ink-soft);
+    color: var(--ink);
 }
 
 .musings-page .container { overflow: visible; }
 
 /* ------------------------------------------------------------ responsive */
-@media (max-width: 768px) {
-    .post-title { font-size: 1.25rem; }
-    .post-excerpt p,
-    .quote-content,
-    .thought-content { font-size: 0.98rem; }
+@media (max-width: 600px) {
+    .essay-leader { display: none; }
+    .essay-row { flex-wrap: wrap; gap: 0.15rem 0.7rem; }
+    .essay-date { order: 3; width: 100%; }
+    /* On touch there's no hover — keep the index compact, drop the peek. */
+    .essay-excerpt { display: none; }
 
-    .info-tooltip { max-width: 340px; font-size: 0.85rem; }
+    .quote-body { font-size: 1.06rem; }
+    .thought-entry { grid-template-columns: 1.7rem 1fr; gap: 0.2rem 0.8rem; }
+    .thought-num { font-size: 1rem; }
 }
 
 @media (max-width: 480px) {
-    .post-title { font-size: 1.18rem; }
-    .content-filter { gap: 1rem; }
-    .filter-button { font-size: 0.7rem; letter-spacing: 0.1em; }
-    .post-excerpt p,
-    .quote-content,
-    .thought-content { font-size: 0.95rem; }
-
+    .archive-nav { gap: 1.2rem; }
+    .archive-nav a { font-size: 0.72rem; letter-spacing: 0.14em; }
     .info-tooltip {
         left: 0; right: 0;
         min-width: 0;

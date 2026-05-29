@@ -1,322 +1,317 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Variables for filtering
-    let allPosts = [];
-    let filteredPosts = [];
-    let activeType = 'all';
-    const CACHE_EXPIRY = 3600000; // 1 hour in milliseconds
-    
-    // DOM elements
-    const blogContainer = document.getElementById('blog-container');
-    const filterButtons = document.querySelectorAll('.filter-button');
-    
-    // Load all content types and display them
-    loadAndDisplayContent();
-    
-    // Set up filter listeners
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const selectedType = this.dataset.type;
-            
-            if (activeType !== selectedType) {
-                // Update active filter button
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                // Update active type
-                activeType = selectedType;
-                
-                // Filter and redisplay posts
-                filterPosts();
-                displayAllPostsView();
-            }
-        });
-    });
-    
-    async function loadAndDisplayContent() {
-        try {
-            // Clear the blog container
-            blogContainer.innerHTML = '';
-            
-            // Show loading indicator
-            const loadingIndicator = document.createElement('div');
-            loadingIndicator.className = 'loading-indicator';
-            loadingIndicator.textContent = 'Loading content...';
-            blogContainer.appendChild(loadingIndicator);
-            
-            // Load all content types
-            const contentItems = await loadAllContentTypes();
-            
-            // Remove loading indicator
-            blogContainer.removeChild(loadingIndicator);
-            
-            // Sort all content by date (newest first)
-            contentItems.sort((a, b) => {
-                const dateA = new Date(a.date);
-                const dateB = new Date(b.date);
-                return dateB - dateA;
-            });
-            
-            // Create DOM elements for each content item
-            contentItems.forEach(item => {
-                const element = createContentElement(item);
-                blogContainer.appendChild(element);
-            });
-            
-            // Initialize filtering
-            allPosts = Array.from(document.querySelectorAll('.post-card'));
-            filteredPosts = [...allPosts];
-            
-            // Display with year separators
-            displayAllPostsView();
-            
-        } catch (error) {
-            console.error('Error loading content:', error);
-            // Show error message to user
-            blogContainer.innerHTML = '<div class="error-message">Failed to load content. Please try again later.</div>';
-        }
+/* =========================================================================
+   Musings archive — renders three forms in three voices:
+     · Essays   → a complete, scannable table-of-contents index
+     · Quotes    → a commonplace book of pull-quotes
+     · Thoughts  → numbered aphorisms
+   Reads the same posts/quotes/thoughts JSON indexes as before; presentation
+   only, so create_post.sh stays unchanged.
+   ========================================================================= */
+document.addEventListener("DOMContentLoaded", function () {
+    const CACHE_KEY = 'musingsContent';
+    const CACHE_EXPIRY = 3600000; // 1 hour
+    const container = document.getElementById('blog-container');
+
+    // limit = Infinity means "never paginate" — the essay index is meant to be
+    // complete and scannable; the longer forms reveal progressively as they grow.
+    const SECTIONS = [
+        { id: 'essays',   label: 'Essays',   limit: Infinity },
+        { id: 'quotes',   label: 'Quotes',   limit: 6 },
+        { id: 'thoughts', label: 'Thoughts', limit: 6 },
+    ];
+
+    init();
+
+    async function init() {
+        renderLoading();
+        const data = await loadContent();
+        if (!data) { renderError(); return; }
+        render(data);
     }
-    
-    async function loadAllContentTypes() {
-        let allContent = [];
-        
-        // Check if we have cached content that's still valid
-        const cachedContent = checkCache('blogContent');
-        if (cachedContent) {
-            return cachedContent;
-        }
-        
-        // Use Promise.all to fetch all content in parallel
+
+    /* --------------------------------------------------------------- data */
+    async function loadContent() {
+        const cached = readCache();
+        if (cached) return cached;
+
         try {
             const [posts, thoughts, quotes] = await Promise.all([
-                fetchWithTimeout('./blog/posts/index.json', 5000),
-                fetchWithTimeout('./blog/thoughts/index.json', 5000),
-                fetchWithTimeout('./blog/quotes/index.json', 5000)
+                fetchJSON('./blog/posts/index.json'),
+                fetchJSON('./blog/thoughts/index.json'),
+                fetchJSON('./blog/quotes/index.json'),
             ]);
-            
-            if (posts) {
-                allContent.push(...posts.map(post => ({...post, type: 'post'})));
-            }
-            
-            if (thoughts) {
-                allContent.push(...thoughts.map(thought => ({...thought, type: 'thought'})));
-            }
-            
-            if (quotes) {
-                allContent.push(...quotes.map(quote => ({...quote, type: 'quote'})));
-            }
-            
-            // Cache the combined content
-            cacheContent('blogContent', allContent);
-            
-            return allContent;
+            const data = {
+                posts: posts || [],
+                thoughts: thoughts || [],
+                quotes: quotes || [],
+            };
+            writeCache(data);
+            return data;
         } catch (error) {
-            console.error('Error loading content:', error);
-            // Return empty array to handle gracefully
-            return [];
+            console.error('Error loading musings:', error);
+            return null;
         }
     }
-    
-    async function fetchWithTimeout(url, timeout) {
+
+    async function fetchJSON(url, timeout = 5000) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), timeout);
         try {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
-            
-            const response = await fetch(url, { 
+            const res = await fetch(url, {
                 signal: controller.signal,
-                headers: { 'Cache-Control': 'no-cache' } 
+                headers: { 'Cache-Control': 'no-cache' },
             });
-            clearTimeout(timeoutId);
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            return await response.json();
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            return await res.json();
         } catch (error) {
             console.error(`Error fetching ${url}:`, error);
             return null;
+        } finally {
+            clearTimeout(timer);
         }
     }
-    
-    function checkCache(key) {
-        const cached = localStorage.getItem(key);
-        if (!cached) return null;
-        
+
+    function readCache() {
         try {
-            const { timestamp, data } = JSON.parse(cached);
-            const now = new Date().getTime();
-            
-            if (now - timestamp < CACHE_EXPIRY) {
-                return data;
-            } else {
-                // Cache expired
-                localStorage.removeItem(key);
-                return null;
-            }
+            const raw = localStorage.getItem(CACHE_KEY);
+            if (!raw) return null;
+            const { timestamp, data } = JSON.parse(raw);
+            if (Date.now() - timestamp < CACHE_EXPIRY) return data;
+            localStorage.removeItem(CACHE_KEY);
+            return null;
         } catch (error) {
-            console.error('Error parsing cached data:', error);
-            localStorage.removeItem(key);
             return null;
         }
     }
-    
-    function cacheContent(key, data) {
+
+    function writeCache(data) {
         try {
-            const cacheObject = {
-                timestamp: new Date().getTime(),
-                data: data
-            };
-            localStorage.setItem(key, JSON.stringify(cacheObject));
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
         } catch (error) {
-            console.error('Error caching content:', error);
-            // If we can't cache (e.g., private browsing mode), just continue
+            /* private mode / quota — just skip caching */
         }
     }
-    
-    function createContentElement(item) {
-        switch (item.type) {
-            case 'post':
-                return createPostElement(item);
-            case 'thought':
-                return createThoughtElement(item);
-            case 'quote':
-                return createQuoteElement(item);
-            default:
-                console.error('Unknown content type:', item.type);
-                return document.createElement('div');
+
+    /* ------------------------------------------------------------- render */
+    function render(data) {
+        if (!data.posts.length && !data.quotes.length && !data.thoughts.length) {
+            renderError();
+            return;
         }
+        container.innerHTML = '';
+        const counts = {
+            essays: data.posts.length,
+            quotes: data.quotes.length,
+            thoughts: data.thoughts.length,
+        };
+
+        container.appendChild(buildNav(counts));
+        if (data.posts.length)    container.appendChild(buildEssays(data.posts));
+        if (data.quotes.length)   container.appendChild(buildQuotes(data.quotes));
+        if (data.thoughts.length) container.appendChild(buildThoughts(data.thoughts));
+
+        wireScrollSpy();
     }
-    
-    function createPostElement(post) {
-        const postCard = document.createElement('div');
-        postCard.className = 'post-card';
-        
-        // Ensure the URL never has .html suffix
-        let cleanUrl = post.url;
-        if (cleanUrl.endsWith('.html')) {
-            cleanUrl = cleanUrl.substring(0, cleanUrl.length - 5);
-        }
-        
-        postCard.innerHTML = `
-            <h2 class="post-title"><a href="${cleanUrl}">${post.title}</a></h2>
-            <div class="post-meta">
-                <span class="post-date">${post.date}</span>
-                <span class="post-type post-type-post" data-type="post">Post</span>
-            </div>
-            <div class="post-excerpt">
-                <p>${post.excerpt}</p>
-            </div>
-            <a href="${cleanUrl}" class="read-more">Read more →</a>
-        `;
-        
-        return postCard;
+
+    function renderLoading() {
+        container.innerHTML = '<div class="loading-indicator">Gathering the archive…</div>';
     }
-    
-    function createThoughtElement(thought) {
-        const thoughtCard = document.createElement('div');
-        thoughtCard.className = 'post-card';
-        
-        thoughtCard.innerHTML = `
-            <h2 class="post-title">${thought.title}</h2>
-            <div class="post-meta">
-                <span class="post-date">${thought.date}</span>
-                <span class="post-type post-type-thought" data-type="thought">Thought</span>
-            </div>
-            <div class="post-excerpt">
-                <div class="thought-content">${thought.content}</div>
-            </div>
-        `;
-        
-        return thoughtCard;
+
+    function renderError() {
+        container.innerHTML = '<div class="error-message">Couldn’t load the archive just now. Please try again later.</div>';
     }
-    
-    function createQuoteElement(quote) {
-        const quoteCard = document.createElement('div');
-        quoteCard.className = 'post-card';
-        
-        // Prepare attribution with optional link
-        let attribution = `— ${quote.author}`;
-        if (quote.authorLink) {
-            attribution = `— <a href="${quote.authorLink}" target="_blank" rel="noopener">${quote.author}</a>`;
-        }
-        
-        quoteCard.innerHTML = `
-            <h2 class="post-title">${quote.title}</h2>
-            <div class="post-meta">
-                <span class="post-date">${quote.date}</span>
-                <span class="post-type post-type-quote" data-type="quote">Quote</span>
-            </div>
-            <div class="post-excerpt">
-                <div class="quote-content">${quote.content}</div>
-                <div class="quote-attribution">${attribution}</div>
-            </div>
-        `;
-        
-        return quoteCard;
-    }
-    
-    function filterPosts() {
-        if (activeType === 'all') {
-            filteredPosts = [...allPosts];
-        } else {
-            filteredPosts = allPosts.filter(post => {
-                const postTypeElement = post.querySelector('.post-type');
-                return postTypeElement && postTypeElement.dataset.type === activeType;
-            });
-        }
-    }
-    
-    function displayAllPostsView() {
-        // Create year separators and show all posts in reverse chronological order
-        
-        // Hide all posts first
-        allPosts.forEach(post => post.style.display = 'none');
-        
-        // Remove any existing year separators
-        const existingYearSeparators = blogContainer.querySelectorAll('.year-separator');
-        existingYearSeparators.forEach(separator => separator.remove());
-        
-        // Create a document fragment to reduce reflow/repaint operations
-        const fragment = document.createDocumentFragment();
-        
-        // Group posts by year
-        const postsByYear = {};
-        
-        filteredPosts.forEach(post => {
-            const dateText = post.querySelector('.post-date').textContent;
-            const year = new Date(dateText).getFullYear();
-            
-            if (!postsByYear[year]) {
-                postsByYear[year] = [];
-            }
-            
-            postsByYear[year].push(post);
-            
-            // Remove the post from the DOM so we can reinsert it later
-            if (post.parentNode) {
-                post.parentNode.removeChild(post);
-            }
+
+    /* ----------------------------------------------------------- builders */
+    function buildNav(counts) {
+        const nav = document.createElement('nav');
+        nav.className = 'archive-nav';
+        nav.setAttribute('aria-label', 'Sections');
+        SECTIONS.forEach(s => {
+            const count = counts[s.id] || 0;
+            if (!count) return;
+            const a = document.createElement('a');
+            a.href = '#' + s.id;
+            a.innerHTML = `${s.label} <span class="count">${count}</span>`;
+            nav.appendChild(a);
         });
-        
-        // Sort years in descending order
-        const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
-        
-        // Display posts grouped by year
-        sortedYears.forEach(year => {
-            // Create year separator
-            const yearSeparator = document.createElement('div');
-            yearSeparator.className = 'year-separator';
-            yearSeparator.innerHTML = `<h2>${year}</h2>`;
-            fragment.appendChild(yearSeparator);
-            
-            // Add all posts for this year right after the separator
-            postsByYear[year].forEach(post => {
-                post.style.display = 'block';
-                fragment.appendChild(post);
+        return nav;
+    }
+
+    function sectionShell(id, label, count) {
+        const section = document.createElement('section');
+        section.className = 'archive-section';
+        section.id = id;
+        const head = document.createElement('div');
+        head.className = 'section-head';
+        head.innerHTML =
+            `<h2>${label}</h2>` +
+            `<span class="rule" aria-hidden="true"></span>` +
+            `<span class="count">${count}</span>`;
+        section.appendChild(head);
+        return section;
+    }
+
+    function buildEssays(posts) {
+        const section = sectionShell('essays', 'Essays', posts.length);
+        const sorted = [...posts].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const byYear = {};
+        sorted.forEach(p => {
+            const year = new Date(p.date).getFullYear();
+            (byYear[year] = byYear[year] || []).push(p);
+        });
+
+        const index = document.createElement('div');
+        index.className = 'essay-index';
+
+        Object.keys(byYear).sort((a, b) => b - a).forEach(year => {
+            const heading = document.createElement('div');
+            heading.className = 'essay-year';
+            heading.textContent = year;
+            index.appendChild(heading);
+
+            byYear[year].forEach(p => {
+                const url = p.url.endsWith('.html') ? p.url.slice(0, -5) : p.url;
+                const item = document.createElement('div');
+                item.className = 'essay-item';
+                item.innerHTML = `
+                    <a class="essay-row" href="${url}">
+                        <span class="essay-title">${p.title}</span>
+                        <span class="essay-leader" aria-hidden="true"></span>
+                        <span class="essay-date">${shortDate(p.date)}</span>
+                    </a>
+                    ${p.excerpt ? `<p class="essay-excerpt"><span>${p.excerpt}</span></p>` : ''}
+                `;
+                index.appendChild(item);
             });
         });
-        
-        // Append all at once
-        blogContainer.appendChild(fragment);
+
+        section.appendChild(index);
+        return section;
     }
-}); 
+
+    function buildQuotes(quotes) {
+        const section = sectionShell('quotes', 'Quotes', quotes.length);
+        const sorted = [...quotes].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const list = document.createElement('div');
+        list.className = 'quote-list';
+
+        sorted.forEach(q => {
+            const figure = document.createElement('figure');
+            figure.className = 'quote-entry';
+
+            const author = q.authorLink
+                ? `<a href="${q.authorLink}" target="_blank" rel="noopener">${q.author}</a>`
+                : q.author;
+
+            // Skip the source line when it just repeats the opening of the quote
+            // (some entries title themselves with their first sentence).
+            const dup = q.title &&
+                q.content.trim().toLowerCase().startsWith(q.title.trim().toLowerCase().replace(/\.$/, ''));
+            const source = (q.title && !dup) ? `<span class="quote-source">${q.title}</span>` : '';
+
+            figure.innerHTML = `
+                ${source}
+                <blockquote class="quote-body">${q.content}</blockquote>
+                <figcaption class="quote-cite">— ${author}<span class="quote-date">${fullDate(q.date)}</span></figcaption>
+            `;
+            list.appendChild(figure);
+        });
+
+        section.appendChild(list);
+        applyShowMore(section, list, '.quote-entry', limitFor('quotes'));
+        return section;
+    }
+
+    function buildThoughts(thoughts) {
+        const section = sectionShell('thoughts', 'Thoughts', thoughts.length);
+        const sorted = [...thoughts].sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        const list = document.createElement('div');
+        list.className = 'thought-list';
+
+        sorted.forEach((t, i) => {
+            const entry = document.createElement('div');
+            entry.className = 'thought-entry';
+            entry.innerHTML = `
+                <div class="thought-num" aria-hidden="true">${toRoman(i + 1)}</div>
+                <div class="thought-body">
+                    <h3 class="thought-title">${t.title}</h3>
+                    <p class="thought-text">${t.content}</p>
+                    <div class="thought-date">${fullDate(t.date)}</div>
+                </div>
+            `;
+            list.appendChild(entry);
+        });
+
+        section.appendChild(list);
+        applyShowMore(section, list, '.thought-entry', limitFor('thoughts'));
+        return section;
+    }
+
+    /* --------------------------------------------------------- show more */
+    function applyShowMore(section, list, itemSelector, limit) {
+        const items = Array.from(list.querySelectorAll(itemSelector));
+        if (items.length <= limit) return;
+
+        items.slice(limit).forEach(el => el.classList.add('is-hidden'));
+
+        const remaining = items.length - limit;
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'show-more';
+        button.textContent = `Show ${remaining} more`;
+        button.addEventListener('click', () => {
+            items.forEach(el => el.classList.remove('is-hidden'));
+            button.remove();
+        });
+        section.appendChild(button);
+    }
+
+    /* --------------------------------------------------------- scrollspy */
+    function wireScrollSpy() {
+        const links = Array.from(document.querySelectorAll('.archive-nav a'));
+        if (!links.length || !('IntersectionObserver' in window)) return;
+
+        const linkFor = {};
+        links.forEach(l => { linkFor[l.getAttribute('href').slice(1)] = l; });
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                links.forEach(l => l.classList.remove('active'));
+                const link = linkFor[entry.target.id];
+                if (link) link.classList.add('active');
+            });
+        }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+        document.querySelectorAll('.archive-section').forEach(s => observer.observe(s));
+    }
+
+    /* ----------------------------------------------------------- helpers */
+    function limitFor(id) {
+        const section = SECTIONS.find(s => s.id === id);
+        return section ? section.limit : Infinity;
+    }
+
+    function shortDate(value) {
+        return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+
+    function fullDate(value) {
+        return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function toRoman(n) {
+        const numerals = [
+            [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+            [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+            [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I'],
+        ];
+        let result = '';
+        for (const [value, symbol] of numerals) {
+            while (n >= value) { result += symbol; n -= value; }
+        }
+        return result;
+    }
+});
