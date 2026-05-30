@@ -385,6 +385,12 @@
     height: 100%;
 }
 
+/* Phosphor duotone — tint the background layer with our (theme-aware) accent;
+   see the matching note in styles.css. */
+.info-button .info-icon [opacity="0.2"] {
+    fill: var(--accent);
+}
+
 .info-tooltip {
     position: absolute;
     top: calc(100% + 10px);

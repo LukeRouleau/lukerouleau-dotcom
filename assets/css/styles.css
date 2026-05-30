@@ -423,6 +423,18 @@ em { font-style: italic; }
 
 .social-links svg { width: 20px; height: 20px; }
 
+/* ------------------------------------------------- Phosphor duotone tinting
+   The foreground layer rides on currentColor (inheriting the link/ink color
+   and its hover → accent shift). The background layer (Phosphor marks it with
+   opacity="0.2") is pulled onto our accent so the duotone reads in the warm
+   rust palette rather than a flat gray. --accent is already theme-aware, so
+   the tint follows the light ↔ dark switch for free. */
+.social-links svg [opacity="0.2"],
+.theme-toggle .theme-icon [opacity="0.2"],
+.resume-link .resume-arrow [opacity="0.2"] {
+    fill: var(--accent);
+}
+
 /* ============================================================== the ledger
    Present / Past set as the index of a printed book: a marginal dateline
    in old-style figures, the organization as a Fraunces anchor, the role in
