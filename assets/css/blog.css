@@ -27,6 +27,9 @@
     padding: 0.85rem 0;
     background: var(--paper);
     border-bottom: 1px solid var(--rule);
+    /* Match the body's theme fade (styles.css) so this sticky bar doesn't
+       snap to the new palette ahead of the rest of the page. */
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .archive-nav a {
