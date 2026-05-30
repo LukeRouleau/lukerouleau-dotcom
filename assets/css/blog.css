@@ -357,6 +357,10 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+    /* Anchor the tooltip to the icon itself, not the tall header row — its
+       top: 100% otherwise measured from below the big "Musings" h1, leaving a
+       wide gap beneath the icon. */
+    position: relative;
 }
 
 .info-button {
