@@ -27,6 +27,9 @@
     padding: 0.85rem 0;
     background: var(--paper);
     border-bottom: 1px solid var(--rule);
+    /* Match the body's theme fade (styles.css) so this sticky bar doesn't
+       snap to the new palette ahead of the rest of the page. */
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 }
 
 .archive-nav a {
@@ -354,40 +357,45 @@
     display: flex;
     align-items: center;
     margin-left: auto;
+    /* Anchor the tooltip to the icon itself, not the tall header row — its
+       top: 100% otherwise measured from below the big "Musings" h1, leaving a
+       wide gap beneath the icon. */
+    position: relative;
 }
 
 .info-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    border: 1px solid var(--rule);
+    width: 22px;
+    height: 22px;
     background: transparent;
     color: var(--ink-soft);
-    font-size: 13px;
     cursor: pointer;
-    transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .info-button:hover {
     color: var(--accent);
-    border-color: var(--accent);
     transform: scale(1.08);
 }
 
-/* Active state when tooltip is open (set by info-button.js) */
+/* Active state when tooltip is open (set by info-button.js) — the duotone
+   icon already reads as a ring, so we just tint it rather than fill a chip. */
 .info-button.active {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    color: var(--paper);
+    color: var(--accent);
 }
 
 .info-icon {
-    font-family: var(--serif-display);
-    font-style: italic;
-    line-height: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* Phosphor duotone — tint the background layer with our (theme-aware) accent;
+   see the matching note in styles.css. */
+.info-button .info-icon [opacity="0.2"] {
+    fill: var(--accent);
 }
 
 .info-tooltip {

@@ -224,7 +224,10 @@ nav ul li a.active {
     outline: 1px solid var(--accent);
     outline-offset: 2px;
 }
-.theme-toggle .theme-icon { display: block; }
+/* Nudge the mark down a hair: the icon centers on the row's geometric middle,
+   but the uppercase "RÉSUMÉ" beside it sits optically low in its padded pill,
+   so a dead-centered icon reads as too high. */
+.theme-toggle .theme-icon { display: block; transform: translateY(2px); }
 
 /* Show the moon by day (tap → night), the sun by night. */
 .theme-toggle .icon-sun { display: none; }
@@ -422,6 +425,18 @@ em { font-style: italic; }
 }
 
 .social-links svg { width: 20px; height: 20px; }
+
+/* ------------------------------------------------- Phosphor duotone tinting
+   The foreground layer rides on currentColor (inheriting the link/ink color
+   and its hover → accent shift). The background layer (Phosphor marks it with
+   opacity="0.2") is pulled onto our accent so the duotone reads in the warm
+   rust palette rather than a flat gray. --accent is already theme-aware, so
+   the tint follows the light ↔ dark switch for free. */
+.social-links svg [opacity="0.2"],
+.theme-toggle .theme-icon [opacity="0.2"],
+.resume-link .resume-arrow [opacity="0.2"] {
+    fill: var(--accent);
+}
 
 /* ============================================================== the ledger
    Present / Past set as the index of a printed book: a marginal dateline

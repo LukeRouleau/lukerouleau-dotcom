@@ -3,17 +3,27 @@ document.addEventListener('DOMContentLoaded', function () {
     const tooltip = document.querySelector('.info-tooltip');
 
     if (infoButton && tooltip) {
-        infoButton.addEventListener('click', function (event) {
+        function toggle(event) {
             event.stopPropagation();
-            
+
             // Toggle tooltip visibility
             tooltip.classList.toggle('visible');
-            
+
             // Set button active state based on tooltip visibility
             if (tooltip.classList.contains('visible')) {
                 infoButton.classList.add('active');
             } else {
                 infoButton.classList.remove('active');
+            }
+        }
+
+        infoButton.addEventListener('click', toggle);
+
+        // Honor the button role for keyboard users (Enter / Space).
+        infoButton.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggle(event);
             }
         });
 
