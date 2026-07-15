@@ -1,11 +1,5 @@
 [
   {
-    "title": "ReCODE Medical Has Been Acquired",
-    "date": "May 28, 2026",
-    "url": "./blog/recode-acquired",
-    "excerpt": "Today we announced that ReCODE Medical — the AI medical-coding company I co-founded — has been acquired."
-  },
-  {
     "title": "Weightless ONNX File Loader with ONNX2Torch",
     "date": "May 16, 2025",
     "url": "./blog/onnx2torch-weightless-loader",
