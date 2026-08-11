@@ -31,3 +31,40 @@ Three blog content types, each driven by a JSON index file that the musings page
 - `blog/thoughts/index.json` → thoughts (content lives inline in the JSON)
 
 `musings.html` is the listing page that filters/renders across all three. When adding a new post, both the HTML file *and* the `index.json` entry are required. Use the **`add-content`** skill (`.claude/skills/add-content/`) to publish any essay, quote, or thought — it documents the exact files and fields for each type.
+
+## Withheld content
+
+Some content is deliberately not published right now. It is **removed from the
+served files**, not commented out in place: every file in this repo is served
+as-is by GitHub Pages, so an HTML comment is still readable via view-source and
+still scrapeable. Git history is the only backup, and it is sufficient.
+
+`STEALTH(<date>)` marker comments in the source point back here. They never name
+what was withheld — that would defeat the point.
+
+Pre-withholding state is commit **`7ed78a1`**. This file is served too, so it
+lists no paths — read them off git instead:
+
+```bash
+git diff --name-status 7ed78a1 HEAD      # every file touched, deletions included
+git checkout 7ed78a1 -- <path>           # restore one
+git show 7ed78a1:<path>                  # inspect one without touching the tree
+```
+
+Four things came out, across two commits. What restoring each one needs beyond
+the checkout:
+
+- **A `<li>` in the `Present` ledger on the home page** — also delete the
+  `STEALTH` marker comment left standing in its place.
+- **A blog post from May 2026** — also re-add its entry to
+  `blog/posts/index.json`, or it stays unlisted on the musings page. It was
+  never in `sitemap.xml`.
+- **One line under `SKILLS:` in `llm.txt`** — nothing else.
+- **A PDF under `assets/files/`** — also uncomment the `.resume-link` `<li>` in
+  `assets/components/header.html`. The two came out together because the PDF
+  names the withheld company in its text layer, so hiding only the link would
+  have left the file reachable by direct URL. A redacted PDF dropped in later
+  lets the link be uncommented on its own; `assets/js/header.js` null-guards the
+  `.resume-link` lookup, so the commented-out link breaks nothing while absent.
+
+When restoring, delete this section too.
