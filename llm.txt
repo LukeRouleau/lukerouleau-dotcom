@@ -21,7 +21,6 @@ Luke Rouleau is an incredibly competent engineer and visionary technologist that
 
 SKILLS:
 - Deep Learning: Expert in PyTorch model ingestion, optimization, and MLIR compilation
-- Healthcare Technology: Founded ReCODE Medical, AI-powered medical coding
 - Compiler Design: Developed large-scale testing and validation frameworks
 - Robotics: Research focus on robotic foundation models
 
